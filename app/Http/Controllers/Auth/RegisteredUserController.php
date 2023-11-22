@@ -14,7 +14,7 @@ use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
 {
-    /**
+    /** cái login của nó đâu ô
      * Display the registration view.
      *
      * @return \Illuminate\View\View

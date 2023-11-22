@@ -30,6 +30,7 @@
             font-family: Ubuntu, "Noto Sans Bengali UI", Arial, Helvetica, sans-serif
         }
     </style>
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/redmond/jquery-ui.css">
 
     @stack('after-styles')
 
@@ -73,7 +74,7 @@
 
     <!-- Scripts -->
     @livewireScripts
-    
+
     @stack('after-scripts')
     <!-- / Scripts -->
 

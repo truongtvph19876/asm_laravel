@@ -45,6 +45,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         'password', 'remember_token',
     ];
 
+
     protected static function boot()
     {
         parent::boot();

@@ -1,154 +1,296 @@
-<nav class="bg-white drop-shadow-md" x-data="{ showMobileNav: false }">
-    <div class="max-w-7xl mx-auto px-2 py-2 sm:px-6 lg:px-8">
-        <div class="relative flex items-center justify-between h-16">
-            <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                <button @click="showMobileNav = !showMobileNav" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
-                    <span class="sr-only">{{__('Open main menu')}}</span>
-                    <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                    <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <div class="flex-1 flex items-center justify-center content-center sm:items-stretch sm:justify-start">
-                <div class="flex-shrink-0 flex items-center">
-                    <a href="/">
-                        <img class="block lg:hidden h-10 w-auto" src="{{asset('img/logo-with-text.jpg')}}" alt="{{ app_name() }}">
-                    </a>
-                    <a href="/">
-                        <img class="hidden lg:block h-12 w-auto" src="{{asset('img/logo-with-text-dark.png')}}" alt="{{ app_name() }}">
-                    </a>
-                </div>
-                <div class="hidden sm:block sm:ml-6">
-                    <div class="flex space-x-4">
-                        <a href="{{ route('frontend.posts.index') }}" class="text-gray-600 border-transparent border-b-2 hover:border-orange-600 px-3 py-2 text-base font-medium transition ease-out duration-300">
-                            {{__('Posts')}}
-                        </a>
-                        <a href="{{ route('frontend.categories.index') }}" class="text-gray-600 border-transparent border-b-2 hover:border-orange-600 px-3 py-2 text-base font-medium transition ease-out duration-300">
-                            {{__('Categories')}}
-                        </a>
-                        <a href="{{ route('frontend.tags.index') }}" class="text-gray-600 border-transparent border-b-2 hover:border-orange-600 px-3 py-2 text-base font-medium transition ease-out duration-300">
-                            {{__('Tags')}}
-                        </a>
-                        <a href="{{ route('frontend.comments.index') }}" class="text-gray-600 border-transparent border-b-2 hover:border-orange-600 px-3 py-2 text-base font-medium transition ease-out duration-300">
-                            {{__('Comments')}}
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <div class="ml-3 relative" x-data="{ isUserMenuOpen: false, isLocalMenuOpen: false }">
-                    <div class="flex flex-row">
-                        <button @click="isLocalMenuOpen = !isLocalMenuOpen" @keydown.escape="isLocalMenuOpen = false" type="button" class="flex flex-col sm:flex-row text-center rounded px-2 mr-2 sm:align-middle sm:items-center focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-gray-500 focus:ring-white transition ease-out duration-300" id="local-menu-button" aria-expanded="false" aria-haspopup="true">
-                            <span class="sr-only">{{__('Open local menu')}}</span>
-                            <span><i class="fa-solid fa-language"></i></span>
-                            <span>
-                                <span class="hidden sm:inline">&nbsp;</span>
-                                {{strtoupper(App::getLocale())}}
-                            </span>
-                        </button>
-                        @guest
-                        <a href="{{ route('login') }}" class="flex items-center mx-2 px-4 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-orange-600 rounded-md hover:bg-orange-500 focus:outline-none focus:bg-orange-500 invisible md:visible">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                            </svg>
-                            <span class="mx-1">{{__('Login')}}</span>
-                        </a>
-                        @if(user_registration())
-                        <a href="{{ route('register') }}" class="flex items-center mx-2 px-4 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-orange-600 rounded-md hover:bg-orange-500 focus:outline-none focus:bg-orange-500 invisible md:visible">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span class="mx-1">{{__('Register')}}</span>
-                        </a>
-                        @endif
-                        @else
-                        <button @click="isUserMenuOpen = !isUserMenuOpen" @keydown.escape="isUserMenuOpen = false" type="button" class="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-cyan-800 focus:ring-white transition ease-out duration-300" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                            <span class="sr-only">{{__('Open Main Menu')}}</span>
-                            <img class="h-10 w-10 rounded-full border-transparent border hover:border-cyan-600" src="{{asset(auth()->user()->avatar)}}" alt="{{asset(auth()->user()->name)}}">
-                        </button>
-                        @endguest
-                    </div>
-
-                    @auth
-                    <div x-show="isUserMenuOpen" @click.away="isUserMenuOpen = false" x-transition:enter="transition ease-out duration-100 transform" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75 transform" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-2 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-
-                        @can('view_backend')
-                        <a href='{{ route("backend.dashboard") }}' class="block px-4 py-2 text-sm text-gray-600 hover:bg-orange-600 hover:text-white" role="menuitem">
-                            <i class="fas fa-tachometer-alt fa-fw"></i>&nbsp;{{__('Admin Dashboard')}}
-                        </a>
-                        @endif
-                        <a href="{{ route('frontend.users.profile', encode_id(auth()->user()->id)) }}" class="block px-4 py-2 text-sm text-gray-600 hover:bg-orange-600 hover:text-white" role="menuitem">
-                            <i class="fas fa-user fa-fw"></i>&nbsp;{{ Auth::user()->name }}
-                        </a>
-                        <a href="{{ route('frontend.users.profileEdit', encode_id(auth()->user()->id)) }}" class="block px-4 py-2 text-sm text-gray-600 hover:bg-orange-600 hover:text-white" role="menuitem">
-                            <i class="fas fa-cogs fa-fw"></i>&nbsp;{{__('Settings')}}
-                        </a>
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="block px-4 py-2 text-sm text-gray-600 hover:bg-orange-600 hover:text-white" role="menuitem">
-                            {{__('Logout')}}
-                        </a>
-
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            {{ csrf_field() }}
-                        </form>
-                    </div>
-                    @endauth
-                    <div x-show="isLocalMenuOpen" @click.away="isLocalMenuOpen = false" x-transition:enter="transition ease-out duration-100 transform" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75 transform" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 py-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="local-menu-button" tabindex="-1">
-                        @foreach(config('app.available_locales') as $locale_code => $locale_name)
-                        <div class="hover:bg-orange-100 px-4 py-1">
-                            <a class="dropdown-item" href="{{route('language.switch', $locale_code)}}">
-                                {{ $locale_name }}
-                            </a>
+<header>
+    <div class="topbsp hidden-xs hidden-sm text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7 text-left offer_title"><p>Check Out Exclusive Black Friday Offer Up To 30% Off -</p> <span>SHOP NOW</span></div>
+                <div class="col-md-5 text-right">
+                    <a href="#!/contact">
+                        <div class="caller">
+                            <svg width="23px" height="23px"><use xlink:href="#caller"></use></svg>
+                            <p>Customer Help</p>
+                            <span>: 9669 654 321</span>
                         </div>
-                        @endforeach
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Mobile menu, show/hide based on menu state. -->
-    <div class="sm:hidden absolute z-10 w-full p-1" id="mobile-menu" x-show="showMobileNav" @click.away="showMobileNav = false" x-transition:enter="transition ease-out duration-100 transform" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75 transform" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
-        <div class="px-2 pt-2 pb-3 space-y-1 bg-white shadow-lg rounded-md ring-1 ring-black ring-opacity-5">
-            <a href="{{ route('frontend.posts.index') }}" class="text-gray-500 block px-3 py-2 rounded-md text-base font-medium">
-                {{__('Posts')}}
-            </a>
-            <a href="{{ route('frontend.categories.index') }}" class="text-gray-500 block px-3 py-2 rounded-md text-base font-medium">
-                {{__('Categories')}}
-            </a>
-            <a href="{{ route('frontend.tags.index') }}" class="text-gray-500 block px-3 py-2 rounded-md text-base font-medium">
-                {{__('Tags')}}
-            </a>
-            <a href="{{ route('frontend.comments.index') }}" class="text-gray-500 block px-3 py-2 rounded-md text-base font-medium">
-                {{__('Comments')}}
-            </a>
+    <div class="hsticky">
+        <div class="container">
+            <div class="row hbottom">
+                <div id="logo" class="col-lg-3 col-md-3 col-sm-4 col-xs-3 text-left">
+                    <a href="/"><img src="{{ asset('') }}images/catalog/logo.png" title="Birth Blessing" alt="Birth Blessing" class="img-responsive" /></a>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 menu-bar"><div class="container_wb_megamenu">
+                        <div id="stamenu">
+                            <nav id="menu" class="navbar">
+                                <div class="navbar-header">
+                                    <button type="button" class="btn-navbar navbar-toggle" onclick="openNav()" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                                        <i class="fa fa-bars"></i>
+                                    </button>
+                                </div>
+                                <div id="mySidenav" class="sidenav menu-vertical">
+                                    <div class="close-nav hidden-md hidden-lg hidden-xl">
+                                        <span class="categories">Categories</span>
+                                        <a href="javascript:void(0)" class="closebtn pull-right" onclick="closeNav()">
+                                            <i class="fa fa-close"></i>
+                                        </a>
+                                    </div>
+                                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                                        <ul class="nav navbar-nav">
+                                            <li class="m-menu">
+                                                <a href="">Baby Wipes</a>
+                                            </li>
+                                            <li class="dropdown m-menu">
+                                                <a href="" class="dropdown-toggle header-menu" data-toggle="dropdown">
+                                                    Teether
+                                                    <i class="fa fa-angle-down"></i>
+                                                </a>
+                                                <div class="dropdown-menu">
+                                                    <div class="dropdown-inner">               <ul class="list-unstyled">
+                                                            <!--3rd level-->
+                                                            <li class="dropdown-submenu"> <a href="indexbe4c.html?route=product/category&amp;path=20_62" class="submenu-title"> Toy's Game (2) </a>
+                                                                <ul class="list-unstyled grand-child">
+                                                                    <li> <a href="index9655.html?route=product/category&amp;path=62_63"> Caption America (1) </a> </li>
+                                                                    <li> <a href="indexdbc0.html?route=product/category&amp;path=62_64"> Iron Man (1) </a> </li>
+                                                                </ul>
+                                                            </li>
+                                                            <!--3rd level over-->
+                                                        </ul>
+                                                        <ul class="list-unstyled">
+                                                            <!--3rd level-->
+                                                            <li class="dropdown-submenu"> <a href="indexd9fe.html?route=product/category&amp;path=20_26" class="submenu-title"> Sport's Game (3) </a>
+                                                                <ul class="list-unstyled grand-child">
+                                                                    <li> <a href="index9bed.html?route=product/category&amp;path=26_61"> Cricket Set (1) </a> </li>
+                                                                    <li> <a href="indexed29.html?route=product/category&amp;path=26_27"> Football (2) </a> </li>
+                                                                </ul>
+                                                            </li>
+                                                            <!--3rd level over-->
+                                                        </ul>
+                                                    </div>
+                                                    <a href="index98dc.html?route=product/category&amp;path=20" class="see-all hidden-md hidden-lg">Show All Teether</a> </div>
+                                            </li>
+                                            <li class="dropdown m-menu"><a href="index1647.html?route=product/category&amp;path=25" class="dropdown-toggle header-menu" data-toggle="dropdown">Toys<i class="fa fa-angle-down"></i></a>
+                                                <div class="dropdown-menu">
+                                                    <div class="dropdown-inner">               <ul class="list-unstyled">
+                                                            <!--3rd level-->
+                                                            <li class="dropdown-submenu"> <a href="index68a7.html?route=product/category&amp;path=25_30" class="submenu-title"> Other Toy's (1) </a>
+                                                                <ul class="list-unstyled grand-child">
+                                                                    <li> <a href="index7689.html?route=product/category&amp;path=30_66"> Anna (1) </a> </li>
+                                                                    <li> <a href="index3ff5.html?route=product/category&amp;path=30_65"> Elsa (1) </a> </li>
+                                                                </ul>
+                                                            </li>
+                                                            <!--3rd level over-->
+                                                        </ul>
+                                                        <ul class="list-unstyled">
+                                                            <!--3rd level-->
+                                                            <li class="dropdown-submenu"> <a href="indexe177.html?route=product/category&amp;path=25_28" class="submenu-title"> Princess Doll's (6) </a>
+                                                                <ul class="list-unstyled grand-child">
+                                                                    <li> <a href="index43ee.html?route=product/category&amp;path=28_35"> Dancing Cactus (1) </a> </li>
+                                                                    <li> <a href="indexf6ce.html?route=product/category&amp;path=28_36"> Toy Scooter (4) </a> </li>
+                                                                </ul>
+                                                            </li>
+                                                            <!--3rd level over-->
+                                                        </ul>
+                                                    </div>
+                                                    <a href="index1647.html?route=product/category&amp;path=25" class="see-all hidden-md hidden-lg">Show All Toys</a> </div>
+                                            </li>
+                                            <li class="m-menu"><a href="index370c.html?route=product/category&amp;path=68">Bath</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </nav>
+                            <div class="w3-overlay w3-animate-opacity"  onclick="closeNav()" style="cursor:pointer" id="myOverlay"></div>
+                        </div>
+                    </div>
 
-            @can('view_backend')
-            <a href='{{ route("backend.dashboard") }}' class="text-gray-500 block px-3 py-2 rounded-md text-base font-medium border" role="menuitem">
-                <i class="fas fa-tachometer-alt fa-fw"></i>&nbsp;{{__('Admin Dashboard')}}
-            </a>
-            @endif
 
+                    <script type="text/javascript">
+                        function headermenu() {
+                            if (jQuery(window).width() < 992)
+                            {
+                                jQuery('ul.nav li.dropdown a.header-menu').attr("data-toggle","dropdown");
+                            }
+                            else
+                            {
+                                jQuery('ul.nav li.dropdown a.header-menu').attr("data-toggle","");
+                            }
+                        }
+                        $(document).ready(function(){headermenu();});
+                        jQuery(window).resize(function() {headermenu();});
+                        jQuery(window).scroll(function() {headermenu();});
+                    </script></div>
+                <div id="top-links" class="col-lg-4 col-md-4 col-sm-8 col-xs-5 text-right">
+                    <ul class="list-inline">
 
-            @guest
-            <hr>
-            <a href="{{ route('login') }}" class="text-gray-500 block mt-2 px-3 py-2 rounded-md text-base font-medium bg-gray-50">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                </svg>
-                <span class="mx-1">{{__('Login')}}</span>
-            </a>
-            @if(user_registration())
-            <a href="{{ route('register') }}" class="text-gray-500 block px-3 py-2 rounded-md text-base font-medium bg-gray-50">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span class="mx-1">{{__('Create an account')}}</span>
-            </a>
-            @endif
-            @endauth
+                        <li class="search">
+                        <li id="search" class="desktop-search d-inline-block">
+                            <div class="d-search">
+                                <button id="search_toggle" class="search-toggle" data-toggle="collapse" onclick="openSearch()">
+                                    <svg><use xlink:href="#hsearch"></svg>
+                                </button>
+                            </div>
+                            <div id="search" class="wbSearch">
+                                <div id="search_block_top">
+                                    <select id="madebyhand-search-category">
+                                        <option value="0">Categories</option>
+                                        <option value="59">Baby Wipes</option>
+                                        <option value="20">Teether</option>
+                                        <option value="62">&nbsp;&nbsp;&nbsp;&nbsp;Toy's Game</option>
+                                        <option value="63">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Caption America</option>
+                                        <option value="64">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Iron Man</option>
+                                        <option value="26">&nbsp;&nbsp;&nbsp;&nbsp;Sport's Game</option>
+                                        <option value="61">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cricket Set</option>
+                                        <option value="27">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Football</option>
+                                        <option value="18">Shoes</option>
+                                        <option value="25">Toys</option>
+                                        <option value="30">&nbsp;&nbsp;&nbsp;&nbsp;Other Toy's</option>
+                                        <option value="66">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anna</option>
+                                        <option value="65">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elsa</option>
+                                        <option value="28">&nbsp;&nbsp;&nbsp;&nbsp;Princess Doll's</option>
+                                        <option value="35">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dancing Cactus</option>
+                                        <option value="36">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Toy Scooter</option>
+                                        <option value="17">Fashion</option>
+                                        <option value="33">Cloth</option>
+                                        <option value="67">Bedroom</option>
+                                        <option value="68">Bath</option>
+                                    </select>
+                                    <div class="input-group">
+                                        <input type="text" name="search" value="" placeholder="Search" class="search_query form-control input-lg madebyhand-search" />
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-primary btn-lg"><i class="fa fa-search  hidden-sm hidden-md hidden-lg"></i><span>Search</span></button>
+                                            <a href="javascript:void(0)" class="closebtn close-nav" onclick="closeSearch()"><i class="fa fa-close"></i></a>
+                                        </div>
+                                        <!-- madebyhand Search Start  -->
+                                        <div class="madebyhand-search text-left">
+                                            <div class="madebyhand-search-loader" style="display: none;"><div class="loaders"></div></div><!-- Add Loader -->
+                                            <div class="madebyhand-search-result"><!-- search results --></div>
+                                        </div>
+                                        <!-- madebyhand Search End  -->
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        </li>
+                        <li class="dropdown inuser">
+                            <a href="indexe223.html?route=account/ " title="My Account" class="dropdown-toggle" data-toggle="dropdown">
+                                <div class="svg-bg">
+                                    <svg><use xlink:href="#huser"></use></svg>
+                                </div>
+                                <span class="hidden-lg hidden-md hidden-sm">                  <span class="hidden-xs"><span id="cartme">Login</span> <span id="cartme">/ register</span></span> </span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right user-down haccount  hlogout ">
+                                <h5 class="text-left">Your Account</h5>
+                                <h6 class="text-left">Access account and manage orders</h6>
+                                @auth
+                                    <li class="xscu d-inline-block text-left">
+                                            <div class="btn-group">
+                                                <button class="btn-link dropdown-toggle test" data-toggle="dropdown">
+
+                                                    <span>{{ Auth::user()->name }}</span>
+                                                    &nbsp;<i class="fa fa-angle-down"></i></button>
+                                                <ul class="dropdown-menu dropdown-menu-right langcdrop">
+                                                    @can('view_backend')
+                                                        <li>
+                                                            <button class="btn btn-link language-select" type="button" name="en-gb">
+                                                                <a href="/admin">Dashboard</a>
+                                                            </button>
+                                                        </li>
+                                                    @endcanany
+                                                    <li>
+                                                        <button class="btn btn-link language-select" type="button" name="en-gb">
+                                                            <a href="profile/{{encode_id(Auth::user()->id)}}">Profile</a>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <form action="{{ route('logout') }}" method="POST">
+                                                            @csrf
+                                                            <button class="btn btn-link language-select" type="submit" name="en-gb">
+                                                                Logout
+                                                            </button>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                    </li>
+                                    @endauth
+                                @guest
+                                    <li class="acd">
+                                        <a href="{{ route('login') }}">
+                                            <i class="fa fa-lock"></i>
+                                            Login
+                                        </a>
+                                    </li>
+                                    <li class="acd"><a href="{{ route('register') }}"><i class="fa fa-user-plus"></i> Register</a></li>
+                                    <li class=" wishcom"><a href="index6431.html?route=product/compare"><i class="fa fa-compress"></i>compare</a></li>
+                                @endguest
+                                <li class="xscu d-inline-block text-left">
+                                    <form action="https://opencart.dostguru.com/KS02/birthblessing_03/index.php?route=common/language/language" method="post" enctype="multipart/form-data" id="form-language">
+                                        <div class="btn-group">
+                                            <button class="btn-link dropdown-toggle test" data-toggle="dropdown">
+
+                                                <span>English</span>
+                                                &nbsp;<i class="fa fa-angle-down"></i></button>
+                                            <ul class="dropdown-menu dropdown-menu-right langcdrop">
+                                                <li>
+                                                    <button class="btn btn-link language-select" type="button" name="en-gb"><img src="catalog/language/en-gb/en-gb.png" alt="English" title="English" /> English</button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-link language-select" type="button" name="ar"><img src="catalog/language/ar/ar.png" alt="Arabic" title="Arabic" /> Arabic</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <input type="hidden" name="code" value="" />
+                                        <input type="hidden" name="redirect" value="index9328.html?route=common/home" />
+                                    </form>
+                                </li>
+                                <li class="xsla  d-inline-block text-left">  <form action="https://opencart.dostguru.com/KS02/birthblessing_03/index.php?route=common/currency/currency" method="post" enctype="multipart/form-data" id="form-currency">
+                                        <div class="btn-group">
+                                            <button class="btn-link dropdown-toggle test" data-toggle="dropdown">                               <strong>$</strong>        <span>Currency</span>&nbsp;<i class="fa fa-angle-down"></i></button>
+                                            <ul class="dropdown-menu dropdown-menu-left langcdrop">
+                                                <li>
+                                                    <button class="currency-select btn btn-link" type="button" name="EUR">€ Euro</button>
+                                                </li>
+                                                <li>
+                                                    <button class="currency-select btn btn-link" type="button" name="GBP">£ Pound Sterling</button>
+                                                </li>
+                                                <li>
+                                                    <button class="currency-select btn btn-link" type="button" name="USD">$ US Dollar</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <input type="hidden" name="code" value="" />
+                                        <input type="hidden" name="redirect" value="index9328.html?route=common/home" />
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="wishcom text-center">
+                            <a href="indexe223.html?route=account/wishlist" id="wishlist-total" title="Wishlist">
+                                <div class="svg-bg">
+                                    <svg width="15px" height="14px"><use xlink:href="#hwish"></use></svg>
+                                </div>
+
+                            </a>
+                        </li>
+                        <li><div id="cart" class="btn-group btn-block">
+                                <button type="button" data-toggle="dropdown" data-loading-text="Loading..." class="dropdown-toggle">
+                                    <div class="svg-bg">
+                                        <svg><use xlink:href="#hcart"></use></svg><span id="cart-total"> <span class="cartt">0</span><span class="hidden-xs  hidden-xs  caritem"> <strong>$0.00</strong> </span></span>
+                                    </div>
+                                </button>
+                                <ul class="dropdown-menu pull-right">
+                                    <li>
+                                        <p class="text-center">Your shopping cart is empty!</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
-</nav>
+
+</header>

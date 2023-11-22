@@ -2,5 +2,9 @@
     "Article": true,
     "Tag": true,
     "Comment": true,
-    "Category": true
+    "Category": true,
+    "Product": true,
+    "User": true,
+    "Test": true,
+    "Attribute": true
 }
