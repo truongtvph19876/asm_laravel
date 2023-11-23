@@ -57,7 +57,7 @@ class BrandsController extends BackendBaseController
         $newBrand = $request->all();
         $imagePath = '';
         if ($request->hasFile('brand_logo')) {
-            $path = "assets/images/";
+            $path = "assets/images/brands/";
             $logo_name = time() . "." . $request->brand_logo->getClientoriginalExtension();
             $request->file('brand_logo')->move($path, $logo_name);
             $imagePath = $path . $logo_name;
@@ -69,5 +69,25 @@ class BrandsController extends BackendBaseController
 
         return redirect("admin/$this->module_name");
     }
+    public function update(Request $request, $id)
+    {
+        $brand = Brand::find($id);
+
+        if ($brand) {
+            $brand_update = $request->all();
+
+            if ($request->hasFile('brand_logo')) {
+                $path = 'assets/brands/';
+                $file_name = time() . ".". $request->brand_logo->getOriginalExtension();
+                $request->file('brand_logo')->move($path, $file_name);
+                $brand_update['brand_logo'] = $path . $file_name;
+            }
+
+            $brand->update($brand_update);
+        }
+
+        return redirect("admin/$this->module_name");
+    }
+
 
 }

@@ -26,10 +26,21 @@ class BrandDatabaseSeeder extends Seeder
         // DB::table('brands')->truncate();
         // echo "Truncate: brands \n";
 
-        Brand::factory()->count(20)->create();
-        $rows = Brand::all();
-        echo " Insert: brands \n\n";
-
+        $brands = [
+            [
+                'id' => 1,
+                'brand_name' => 'Nike',
+                'brand_logo' => 'assets/images/brands/Logo_NIKE.svg.png'
+            ],
+            [
+                'id' => 2,
+                'brand_name' => 'Chanel',
+                'brand_logo' => 'assets/images/brands/chanel.jpg'
+            ],
+        ];
+        foreach ($brands as $brand) {
+            \Modules\Brand\Models\Brand::create($brand);
+        }
         // Enable foreign key checks!
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
