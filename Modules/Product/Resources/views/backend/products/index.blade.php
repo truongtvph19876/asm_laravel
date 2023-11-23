@@ -61,16 +61,19 @@
                                 #
                             </th>
                             <th>
+                                @lang("product::text.image")
+                            </th>
+                            <th>
                                 @lang("product::text.name")
                             </th>
                             <th>
-                                @lang("product::text.slug")
+                                @lang("product::text.brand")
                             </th>
                             <th>
-                                @lang("product::text.updated_at")
+                                @lang("product::text.price")
                             </th>
                             <th>
-                                @lang("product::text.created_by")
+                                @lang("product::text.quantity")
                             </th>
                             <th class="text-end">
                                 @lang("product::text.action")
@@ -85,16 +88,19 @@
                                 {{ $module_name_singular->id }}
                             </td>
                             <td>
-                                <a href="{{ url("admin/$module_name", $module_name_singular->id) }}">{{ $module_name_singular->name }}</a>
+                                <img srcset="{{ asset($module_name_singular->product_image) }} 10x" alt="">
                             </td>
                             <td>
-                                {{ $module_name_singular->slug }}
+                                <a href="{{ url("admin/$module_name", $module_name_singular->id) }}">{{ $module_name_singular->product_name }}</a>
+                            </td>
+                            <td class="w-25">
+                                {{ $module_name_singular->brand->brand_name }}
                             </td>
                             <td>
-                                {{ $module_name_singular->updated_at->diffForHumans() }}
+                                {{ $module_name_singular->product_price }}
                             </td>
                             <td>
-                                {{ $module_name_singular->created_by }}
+                                {{ $module_name_singular->product_quantity }}
                             </td>
                             <td class="text-end">
                                 <a href='{!!route("backend.$module_name.edit", $module_name_singular)!!}' class='btn btn-sm btn-primary mt-1' data-toggle="tooltip" title="Edit {{ ucwords(Str::singular($module_name)) }}"><i class="fas fa-wrench"></i></a>

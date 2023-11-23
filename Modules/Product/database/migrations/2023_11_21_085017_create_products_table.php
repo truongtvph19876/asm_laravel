@@ -25,9 +25,13 @@ return new class extends Migration
             $table->bigInteger('product_price')->nullable();
             $table->string('product_image');
             $table->bigInteger('product_quantity');
-            $table->text('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('detail')->nullable();
-            $table->boolean('is_active')->default(1);
+            $table->boolean('status')->default(1);
+
+            $table->integer('created_by')->unsigned()->nullable();
+            $table->integer('updated_by')->unsigned()->nullable();
+            $table->integer('deleted_by')->unsigned()->nullable();
 
             $table->timestamps();
             $table->softDeletes();

@@ -3,6 +3,11 @@
 return [
 
     'name' => 'Name',
+    'image' => 'Image',
+    'brand' => 'Brand',
+    'price' => 'Price',
+    'detail' => 'Detail',
+    'quantity' => 'Quantity',
     'slug' => 'Slug',
     'description' => 'Description',
     'status' => 'Status',

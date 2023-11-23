@@ -5,6 +5,7 @@ namespace Modules\Product\Models;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Brand\Models\Brand;
 
 class Product extends BaseModel
 {
@@ -13,11 +14,20 @@ class Product extends BaseModel
 
     protected $table = 'products';
     protected $fillable = [
-        'name',
-        'slug',
+        'brand_id',
+        'product_name',
+        'product_slug',
+        'product_price',
+        'product_image',
+        'product_quantity',
         'description',
+        'detail',
         'status'
     ];
+
+    public function brand() {
+        return $this->belongsTo('Modules\Brand\Models\Brand');
+    }
 
     /**
      * Create a new factory instance for the model.
