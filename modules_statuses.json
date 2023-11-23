@@ -6,5 +6,6 @@
     "Product": true,
     "User": true,
     "Test": true,
-    "Attribute": true
+    "Attribute": true,
+    "Brand": true
 }
