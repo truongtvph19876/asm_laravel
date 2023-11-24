@@ -6,7 +6,7 @@
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+{{--                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />--}}
             </a>
         </x-slot>
 
@@ -14,12 +14,13 @@
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <!-- Social Login -->
-        <x-auth-social-login />
+{{--        <x-auth-social-login />--}}
 
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
         <form method="POST" action="{{ route('login') }}">
+            <h2 class="text-center" style="font-size: 43px; font-weight: bold">Đăng nhập</h2>
             @csrf
 
             <!-- Email Address -->

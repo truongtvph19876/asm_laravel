@@ -95,7 +95,7 @@ class ProductsController extends BackendBaseController
 
             if ($request->hasFile('product_image')) {
                 $path = "assets/images/products/";
-                $file_name = time().".".$request->product_image->getOriginalExtension();
+                $file_name = time().".".$request->product_image->getClientOriginalExtension();
                 $request->file('product_image')->move($path, $file_name);
                 $product_update['product_image'] = $path.$file_name;
             }

@@ -88,7 +88,7 @@
                                 {{ $module_name_singular->id }}
                             </td>
                             <td>
-                                <img srcset="{{ asset($module_name_singular->product_image) }} 10x" alt="">
+                                <img srcset="{{ asset($module_name_singular->product_image) }} 8x" alt="">
                             </td>
                             <td>
                                 <a href="{{ url("admin/$module_name", $module_name_singular->id) }}">{{ $module_name_singular->product_name }}</a>

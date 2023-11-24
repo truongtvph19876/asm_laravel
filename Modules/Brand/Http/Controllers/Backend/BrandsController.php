@@ -78,7 +78,7 @@ class BrandsController extends BackendBaseController
 
             if ($request->hasFile('brand_logo')) {
                 $path = 'assets/brands/';
-                $file_name = time() . ".". $request->brand_logo->getOriginalExtension();
+                $file_name = time() . ".". $request->brand_logo->getClientOriginalExtension();
                 $request->file('brand_logo')->move($path, $file_name);
                 $brand_update['brand_logo'] = $path . $file_name;
             }
