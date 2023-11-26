@@ -6,12 +6,15 @@ use App\Authorizable;
 use App\Http\Controllers\Backend\BackendBaseController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Modules\Product\Http\Requests\ProductRequest;
 use Modules\Product\Models\Product;
 
 class ProductsController extends BackendBaseController
 {
     use Authorizable;
+    private $product_request;
 
     public function __construct()
     {
@@ -29,6 +32,8 @@ class ProductsController extends BackendBaseController
 
         // module model name, path
         $this->module_model = "Modules\Product\Models\Product";
+
+        $this->product_request = new ProductRequest();
     }
 
     public function index()
@@ -68,20 +73,24 @@ class ProductsController extends BackendBaseController
 
     public function store(Request $request)
     {
+
+        $request->validate(
+            $this->product_request->rules(),
+            $this->product_request->messages()
+        );
+
         $new_product = $request->all();
 
-        $path_image = '';
         if ($request->hasFile('product_image')) {
-            $path = "assets/images/products/";
-            $file_name = time().".".$request->product_image->getClientOriginalExtension();
-            $request->file('product_image')->move($path, $file_name);
-            $path_image = $path . $file_name;
+            $file_name = time()."_".$request->product_image->getClientOriginalName();
+            $new_product['product_image'] = $request->file('product_image')->storeAs('products', $file_name, 'public');
         }
+
 
         Product::create([
             ...$new_product,
+            'description' => htmlspecialchars($request->description),
             'product_slug' => $request->product_slug . "-" . time(),
-            'product_image' => $path_image,
         ]);
 
         return redirect("admin/$this->module_name");
@@ -89,17 +98,41 @@ class ProductsController extends BackendBaseController
 
     public function update(Request $request, $id)
     {
+        $request->validate(
+            [
+                ...$this->product_request->rules(),
+                'product_image' => ''
+            ],
+            $this->product_request->messages()
+        );
+
         $product = Product::find($id);
         if ($product) {
             $product_update = $request->all();
 
             if ($request->hasFile('product_image')) {
-                $path = "assets/images/products/";
-                $file_name = time().".".$request->product_image->getClientOriginalExtension();
-                $request->file('product_image')->move($path, $file_name);
-                $product_update['product_image'] = $path.$file_name;
+                $file_name = time()."_".$request->product_image->getClientOriginalName();
+                $product_update['product_image'] = $request->file('product_image')->storeAs('products', $file_name, 'public');
             }
-            $product->update($product_update);
+            $product->update([
+               ...$product_update,
+                'description' => htmlspecialchars($request->description),
+            ]);
+        }
+
+        return redirect("admin/$this->module_name");
+    }
+
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+
+        if ($product) {
+            $product_image = $product->product_image;
+            $product->delete();
+//            if (Storage::exists("public/".$product_image)){
+//                Storage::delete("public/".$product_image);
+//            }
         }
 
         return redirect("admin/$this->module_name");

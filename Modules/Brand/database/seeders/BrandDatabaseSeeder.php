@@ -23,19 +23,28 @@ class BrandDatabaseSeeder extends Seeder
          * ------------------
          */
 
-        // DB::table('brands')->truncate();
-        // echo "Truncate: brands \n";
+         DB::table('brands')->truncate();
 
         $brands = [
             [
                 'id' => 1,
-                'brand_name' => 'Nike',
-                'brand_logo' => 'assets/images/brands/Logo_NIKE.svg.png'
+                'brand_name' => 'Unknown',
+                'brand_logo' => 'brands/unknown.png'
             ],
             [
                 'id' => 2,
+                'brand_name' => 'Nike',
+                'brand_logo' => 'brands/Logo_NIKE.svg.png'
+            ],
+            [
+                'id' => 3,
                 'brand_name' => 'Chanel',
-                'brand_logo' => 'assets/images/brands/chanel.jpg'
+                'brand_logo' => 'brands/chanel.jpg'
+            ],
+            [
+                'id' => 4,
+                'brand_name' => 'Adidas',
+                'brand_logo' => 'brands/Adidas_logo.png'
             ],
         ];
         foreach ($brands as $brand) {

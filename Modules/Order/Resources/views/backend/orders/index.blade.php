@@ -44,15 +44,6 @@
         </x-backend.section-header>
 
         <div class="row mt-4">
-            <div class="row mb-3">
-                <form action="{{ route("backend.$module_name.search") }}" method="POST">
-                    @csrf
-                    <div class="d-flex gap-2">
-                        <input placeholder="Enter Name" name="nameSearch" class="form-control">
-                        <button class="btn btn-success">Search</button>
-                    </div>
-                </form>
-            </div>
             <div class="col">
                 <table id="datatable" class="table table-bordered table-hover table-responsive-sm">
                     <thead>
@@ -61,22 +52,19 @@
                                 #
                             </th>
                             <th>
-                                @lang("product::text.image")
+                                @lang("order::text.name")
                             </th>
                             <th>
-                                @lang("product::text.name")
+                                @lang("order::text.slug")
                             </th>
                             <th>
-                                @lang("product::text.brand")
+                                @lang("order::text.updated_at")
                             </th>
                             <th>
-                                @lang("product::text.price")
-                            </th>
-                            <th>
-                                @lang("product::text.quantity")
+                                @lang("order::text.created_by")
                             </th>
                             <th class="text-end">
-                                @lang("product::text.action")
+                                @lang("order::text.action")
                             </th>
                         </tr>
                     </thead>
@@ -88,19 +76,16 @@
                                 {{ $module_name_singular->id }}
                             </td>
                             <td>
-                                <img srcset="{{ Storage::url($module_name_singular->product_image) }} 8x" alt="">
+                                <a href="{{ url("admin/$module_name", $module_name_singular->id) }}">{{ $module_name_singular->name }}</a>
                             </td>
                             <td>
-                                <a href="{{ url("admin/$module_name", $module_name_singular->id) }}">{{ $module_name_singular->product_name }}</a>
-                            </td>
-                            <td class="w-25">
-                                {{ $module_name_singular->brand->brand_name }}
+                                {{ $module_name_singular->slug }}
                             </td>
                             <td>
-                                {{ $module_name_singular->product_price }}
+                                {{ $module_name_singular->updated_at->diffForHumans() }}
                             </td>
                             <td>
-                                {{ $module_name_singular->product_quantity }}
+                                {{ $module_name_singular->created_by }}
                             </td>
                             <td class="text-end">
                                 <a href='{!!route("backend.$module_name.edit", $module_name_singular)!!}' class='btn btn-sm btn-primary mt-1' data-toggle="tooltip" title="Edit {{ ucwords(Str::singular($module_name)) }}"><i class="fas fa-wrench"></i></a>
@@ -117,13 +102,12 @@
         <div class="row">
             <div class="col-7">
                 <div class="float-left">
-                    Total {{ count($products) }}
+                    Total {{ $$module_name->total() }} {{ ucwords($module_name) }}
                 </div>
             </div>
             <div class="col-5">
                 <div class="float-end">
-                    {!! $products->render() !!}
-                    hello
+                    {!! $$module_name->render() !!}
                 </div>
             </div>
         </div>

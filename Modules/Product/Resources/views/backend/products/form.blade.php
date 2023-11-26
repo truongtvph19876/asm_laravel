@@ -1,29 +1,29 @@
-<div class="row">
-    <div class="row">
-        <div class="col-6 col-sm-4 mb-3">
-            <div class="form-group">
-                <?php
-                $field_name = 'product_type';
-                $field_lable = label_case($field_name);
-                $field_placeholder = "-- Chọn loại sản phẩm --";
-                $required = "required";
-                $select_options = [
-                    '0' => 'Sản phẩm thông thường',
-                    '1' => 'Sản phẩm có biến thể'
-                ];
-                $default_option = '0';
-                ?>
-                {{ html()->label($field_lable, $field_name)->class('form-label') }} {!! fielf_required($required) !!}
-                {{ html()->select($field_name, $select_options, $default_option)->placeholder($field_placeholder)
-                        ->class('form-control select2')->id('product_type')
-                        ->attributes(["$required"]) }}
-            </div>
-        </div>
-        <div id="product-option-container" class="col-6 col-sm-4 mb-3"></div>
-    </div>
-    <div id="attribute-container" class="row">
-    </div>
-</div>
+{{--<div class="row">--}}
+{{--    <div class="row">--}}
+{{--        <div class="col-6 col-sm-4 mb-3">--}}
+{{--            <div class="form-group">--}}
+{{--                <?php--}}
+{{--                $field_name = 'product_type';--}}
+{{--                $field_lable = label_case($field_name);--}}
+{{--                $field_placeholder = "-- Chọn loại sản phẩm --";--}}
+{{--                $required = "required";--}}
+{{--                $select_options = [--}}
+{{--                    '0' => 'Sản phẩm thông thường',--}}
+{{--                    '1' => 'Sản phẩm có biến thể'--}}
+{{--                ];--}}
+{{--                $default_option = '0';--}}
+{{--                ?>--}}
+{{--                {{ html()->label($field_lable, $field_name)->class('form-label') }} {!! fielf_required($required) !!}--}}
+{{--                {{ html()->select($field_name, $select_options, $default_option)->placeholder($field_placeholder)--}}
+{{--                        ->class('form-control select2')->id('product_type')--}}
+{{--                        ->attributes(["$required"]) }}--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div id="product-option-container" class="col-6 col-sm-4 mb-3"></div>--}}
+{{--    </div>--}}
+{{--    <div id="attribute-container" class="row">--}}
+{{--    </div>--}}
+{{--</div>--}}
 <div class="row">
     <div class="col-12 col-sm-4 mb-3">
         <div class="form-group">
@@ -31,10 +31,11 @@
             $field_name = 'product_name';
             $field_lable = label_case($field_name);
             $field_placeholder = $field_lable;
-            $required = "required";
+            $required = "";
             ?>
             {{ html()->label($field_lable, $field_name)->class('form-label') }} {!! fielf_required($required) !!}
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->id('name')->attributes(["$required"]) }}
+            @if($errors->has('product_name')) {{ html()->span($errors->first('product_name'))->class('text-danger') }} @endif
         </div>
     </div>
     <div class="col-12 col-sm-4 mb-3">
@@ -47,6 +48,7 @@
             ?>
             {{ html()->label($field_lable, $field_name)->class('form-label') }} {!! fielf_required($required) !!}
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->id('slug')->attributes(["$required"]) }}
+            @if($errors->has('product_slug')) {{ html()->span($errors->first('product_slug'))->class('text-danger') }} @endif
         </div>
     </div>
     <div class="col-12 col-sm-2 mb-3">
@@ -60,6 +62,7 @@
             ?>
             {{ html()->label($field_lable, $field_name)->class('form-label') }} {!! fielf_required($required) !!}
             {{ html()->select($field_name."_id", $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
+            @if($errors->has('brand')) {{ html()->span($errors->first('brand'))->class('text-danger') }} @endif
         </div>
     </div>
     <div class="col-12 col-sm-2 mb-3">
@@ -77,7 +80,8 @@
             ];
             ?>
             {{ html()->label($field_lable, $field_name)->class('form-label') }} {!! fielf_required($required) !!}
-            {{ html()->select($field_name."_id", $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"])->value($default_option) }}
+            {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"])->value($default_option) }}
+            @if($errors->has('status')) {{ html()->span($errors->first('status'))->class('text-danger') }} @endif
         </div>
     </div>
 </div>
@@ -88,10 +92,11 @@
             $field_name = 'product_price';
             $field_lable = label_case($field_name);
             $field_placeholder = $field_lable;
-            $required = "required";
+            $required = "";
             ?>
             {{ html()->label($field_lable, $field_name)->class('form-label') }} {!! fielf_required($required) !!}
             {{ html()->number($field_name)->placeholder($field_placeholder)->class('form-control')->id('slug')->attributes(["$required"]) }}
+            @if($errors->has('product_price')) {{ html()->span($errors->first('product_price'))->class('text-danger') }} @endif
         </div>
     </div>
     <div class="col-12 col-sm-4 mb-3">
@@ -104,6 +109,7 @@
             ?>
             {{ html()->label($field_lable, $field_name)->class('form-label') }} {!! fielf_required($required) !!}
             {{ html()->number($field_name)->placeholder($field_placeholder)->class('form-control')->id('slug')->attributes(["$required"]) }}
+            @if($errors->has('product_quantity')) {{ html()->span($errors->first('product_quantity'))->class('text-danger') }} @endif
         </div>
     </div>
     <div class="col-12 col-sm-4 mb-3">
@@ -116,6 +122,7 @@
             ?>
             {{ html()->label($field_lable, $field_name)->class('form-label') }} {!! fielf_required($required) !!}
             {{ html()->file($field_name)->class('form-control')->id('slug')->attributes(["$required"]) }}
+            @if($errors->has('product_image')) {{ html()->span($errors->first('product_image'))->class('text-danger') }} @endif
         </div>
     </div>
 </div>
@@ -130,6 +137,7 @@
             ?>
             {{ html()->label($field_lable, $field_name)->class('form-label') }} {!! fielf_required($required) !!}
             {{ html()->textarea($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+            @if($errors->has('detail')) {{ html()->span($errors->first('detail'))->class('text-danger') }} @endif
         </div>
     </div>
 </div>
@@ -144,6 +152,7 @@
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->textarea($field_name)->placeholder($field_placeholder)->id('description')->class('form-control')->attributes(["$required"]) }}
+            @if($errors->has('description')) {{ html()->span($errors->first('description'))->class('text-danger') }} @endif
         </div>
     </div>
 </div>

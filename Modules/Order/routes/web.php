@@ -19,19 +19,18 @@ use Illuminate\Support\Facades\Route;
 *
 * --------------------------------------------------------------------
 */
-Route::group(['namespace' => '\Modules\Product\Http\Controllers\Frontend', 'as' => 'frontend.', 'middleware' => 'web', 'prefix' => ''], function () {
+Route::group(['namespace' => '\Modules\Order\Http\Controllers\Frontend', 'as' => 'frontend.', 'middleware' => 'web', 'prefix' => ''], function () {
 
     /*
      *
-     *  Frontend Products Routes
+     *  Frontend Orders Routes
      *
      * ---------------------------------------------------------------------
      */
-    $module_name = 'products';
-    $controller_name = 'ProductsController';
+    $module_name = 'orders';
+    $controller_name = 'OrdersController';
     Route::get("$module_name", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
-    Route::get("/{slug}", ['as' => "$module_name.show", 'uses' => "$controller_name@show"]);
-
+    Route::get("$module_name/{id}/{slug?}", ['as' => "$module_name.show", 'uses' => "$controller_name@show"]);
 });
 
 /*
@@ -40,7 +39,7 @@ Route::group(['namespace' => '\Modules\Product\Http\Controllers\Frontend', 'as' 
 *
 * --------------------------------------------------------------------
 */
-Route::group(['namespace' => '\Modules\Product\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'admin'], function () {
+Route::group(['namespace' => '\Modules\Order\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'admin'], function () {
     /*
     * These routes need view-backend permission
     * (good if you want to allow more than one group in the backend,
@@ -51,13 +50,12 @@ Route::group(['namespace' => '\Modules\Product\Http\Controllers\Backend', 'as' =
 
     /*
      *
-     *  Backend Products Routes
+     *  Backend Orders Routes
      *
      * ---------------------------------------------------------------------
      */
-    $module_name = 'products';
-    $controller_name = 'ProductsController';
-    Route::post("$module_name/search", ['as' => "$module_name.search", 'uses' => "$controller_name@search"]);
+    $module_name = 'orders';
+    $controller_name = 'OrdersController';
     Route::get("$module_name/index_list", ['as' => "$module_name.index_list", 'uses' => "$controller_name@index_list"]);
     Route::get("$module_name/index_data", ['as' => "$module_name.index_data", 'uses' => "$controller_name@index_data"]);
     Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);

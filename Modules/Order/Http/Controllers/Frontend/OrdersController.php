@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Product\Http\Controllers\Frontend;
+namespace Modules\Order\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
-class ProductsController extends Controller
+class OrdersController extends Controller
 {
     public $module_title;
 
@@ -21,19 +21,19 @@ class ProductsController extends Controller
     public function __construct()
     {
         // Page Title
-        $this->module_title = 'Products';
+        $this->module_title = 'Orders';
 
         // module name
-        $this->module_name = 'products';
+        $this->module_name = 'orders';
 
         // directory path of the module
-        $this->module_path = 'product::frontend';
+        $this->module_path = 'order::frontend';
 
         // module icon
         $this->module_icon = 'fa-regular fa-sun';
 
         // module model name, path
-        $this->module_model = "Modules\Product\Models\Product";
+        $this->module_model = "Modules\Order\Models\Order";
     }
 
     /**
@@ -66,8 +66,9 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($slug)
+    public function show($id)
     {
+        $id = decode_id($id);
 
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -78,7 +79,7 @@ class ProductsController extends Controller
 
         $module_action = 'Show';
 
-        $$module_name_singular = $module_model::query()->where('product_slug', $slug)->first();
+        $$module_name_singular = $module_model::findOrFail($id);
 
         return view(
             "$module_path.$module_name.show",
