@@ -4,7 +4,9 @@ namespace Modules\Order\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Modules\Order\Models\Order;
 
 class OrdersController extends Controller
 {
@@ -52,7 +54,7 @@ class OrdersController extends Controller
 
         $module_action = 'List';
 
-        $$module_name = $module_model::latest()->paginate();
+        $$module_name = $module_model::latest()->where('user_id', Auth::user()->id)->paginate(5);
 
         return view(
             "$module_path.$module_name.index",
@@ -66,10 +68,8 @@ class OrdersController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show($order)
     {
-        $id = decode_id($id);
-
         $module_title = $this->module_title;
         $module_name = $this->module_name;
         $module_path = $this->module_path;
@@ -79,11 +79,21 @@ class OrdersController extends Controller
 
         $module_action = 'Show';
 
-        $$module_name_singular = $module_model::findOrFail($id);
+        $$module_name_singular = $module_model::findOrFail($order);
 
         return view(
             "$module_path.$module_name.show",
             compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular', "$module_name_singular")
         );
+    }
+
+    public function destroy($order) {
+        $order = Order::find($order);
+
+        if ($order) {
+            $order->status_id = 1;
+            $order->save();
+        }
+        return back();
     }
 }

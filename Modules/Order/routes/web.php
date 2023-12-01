@@ -30,7 +30,8 @@ Route::group(['namespace' => '\Modules\Order\Http\Controllers\Frontend', 'as' =>
     $module_name = 'orders';
     $controller_name = 'OrdersController';
     Route::get("$module_name", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
-    Route::get("$module_name/{id}/{slug?}", ['as' => "$module_name.show", 'uses' => "$controller_name@show"]);
+    Route::get("$module_name/{order}", ['as' => "$module_name.show", 'uses' => "$controller_name@show"]);
+    Route::delete("$module_name/{order}", ['as' => "$module_name.destroy", 'uses' => "$controller_name@destroy"]);
 });
 
 /*
@@ -61,4 +62,5 @@ Route::group(['namespace' => '\Modules\Order\Http\Controllers\Backend', 'as' => 
     Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);
     Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
     Route::resource("$module_name", "$controller_name");
+    Route::get('find_product/{key}', ['as' => "$module_name.index_list", 'uses' => "$controller_name@findProduct"]);
 });

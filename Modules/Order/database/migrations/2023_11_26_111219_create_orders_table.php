@@ -21,19 +21,23 @@ return new class extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('status_id');
+            $table->foreign('status_id')->references('id')->on('order_status')->onDelete('cascade');
+            $table->unsignedBigInteger('payment_id');
+            $table->foreign('payment_id')->references('id')->on('payment_method')->onDelete('cascade');
 
             $table->string('product_name');
-            $table->integer('product_price');
             $table->integer('quantity');
             $table->integer('unit_price');
 
             $table->string('recipient_name');
             $table->string('recipient_phone');
-            $table->string('recipient_address');
-            $table->string('note');
+            $table->string('recipient_city');
+            $table->string('recipient_district');
+            $table->string('recipient_ward');
+            $table->string('recipient_detail_address');
+            $table->string('note')->nullable();
 
-            $table->enum('status_order', [-1, 1, 2, 3, 4, 5, 6])
-                ->comment('-1. Yêu cầu hủy đơn hàng, 1. Chờ xác nhận, 2. Đã các nhận, 3. Đang giao hàng, 4. Giao hàng thành công, 5. Giao hàng thất bại, 6. Đơn hàng đã được hủy');
             $table->integer('created_by')->unsigned()->nullable();
             $table->integer('updated_by')->unsigned()->nullable();
             $table->integer('deleted_by')->unsigned()->nullable();

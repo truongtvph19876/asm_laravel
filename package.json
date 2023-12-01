@@ -2,7 +2,8 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "server": "vite build"
     },
     "devDependencies": {
         "@coreui/coreui": "^4.2.6",

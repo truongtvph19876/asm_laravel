@@ -89,6 +89,22 @@ if (! function_exists('show_column_value')) {
             return $value;
         }
 
+        if ($column_name == 'user_id') {
+            return $valueObject->user->name;
+        }
+        if ($column_name == 'created_by' || $column_name == 'updated_by' || $column_name == 'deleted_by') {
+            return $valueObject->user->name;
+        }
+        if ($column_name == 'status_id') {
+            return $valueObject->status->status;
+        }
+        if ($column_name == 'payment_id') {
+            return $valueObject->payment->payment_name;
+        }
+        if ($column_name == 'description') {
+            return htmlspecialchars_decode($value);
+        }
+
         if (($column_type == 'date') && $value != '') {
             $datetime = \Carbon\Carbon::parse($value);
 
@@ -100,7 +116,7 @@ if (! function_exists('show_column_value')) {
         } elseif ($column_type == 'json') {
             $return_text = json_encode($value);
         } elseif ($column_type != 'json' && \Illuminate\Support\Str::endsWith(strtolower($value), ['png', 'jpg', 'jpeg', 'gif', 'svg'])) {
-            $img_path = asset($value);
+            $img_path = asset("storage/$value");
 
             $return_text = '<figure class="figure">
                                 <a href="'.$img_path.'" data-lightbox="image-set" data-title="Path: '.$value.'">

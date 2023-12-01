@@ -4,6 +4,8 @@ namespace Modules\Order\database\seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Modules\Order\Entities\OrderStatus;
+use Modules\Order\Entities\PaymentMethod;
 use Modules\Tag\Models\Order;
 
 class OrderDatabaseSeeder extends Seeder
@@ -22,13 +24,66 @@ class OrderDatabaseSeeder extends Seeder
          * Orders Seed
          * ------------------
          */
+        /*
+         *
+         * Order Status Seed
+         * ------------------
+         */
+        $order_status = [
+            [
+                'id' => '1',
+                'status' => 'Yêu cầu hủy đơn hàng'
+            ],
+            [
+                'id' => '2',
+                'status' => 'Chờ xác nhận'
+            ],
+            [
+                'id' => '3',
+                'status' => 'Đã xác nhận'
+            ],
+            [
+                'id' => '4',
+                'status' => 'Đang giao hàng'
+            ],
+            [
+                'id' => '5',
+                'status' => 'Giao hàng thành công'
+            ],
+            [
+                'id' => '6',
+                'status' => 'Giao hàng thất bại'
+            ],
+            [
+                'id' => '7',
+                'status' => 'Đơn hàng đã được hủy'
+            ],
+        ];
 
-        // DB::table('orders')->truncate();
-        // echo "Truncate: orders \n";
+        foreach ($order_status as $status) {
+            OrderStatus::create($status);
+        }
 
-        Order::factory()->count(20)->create();
-        $rows = Order::all();
-        echo " Insert: orders \n\n";
+        /*
+         *
+         * Payment method Seed
+         * ------------------
+         */
+
+        $payment_method = [
+            [
+                'id' => '1',
+                'payment_name' => 'Thanh toán khi nhận hàng'
+            ],
+            [
+                'id' => '2',
+                'payment_name' => 'Thanh toán qua VNPay'
+            ]
+        ];
+
+        foreach ($payment_method as $item) {
+            PaymentMethod::create($item);
+        }
 
         // Enable foreign key checks!
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');

@@ -3,7 +3,7 @@ import laravel from 'laravel-vite-plugin';
 // const path = require('path')
 import path from 'path'
 
-
+//
 // import react from '@vitejs/plugin-react';
 // import vue from '@vitejs/plugin-vue';
 

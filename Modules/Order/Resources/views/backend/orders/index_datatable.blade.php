@@ -52,7 +52,16 @@
                                 #
                             </th>
                             <th>
+                                @lang("order::text.image")
+                            </th>
+                            <th>
                                 @lang("order::text.name")
+                            </th>
+                            <th>
+                                @lang("order::text.total_price")
+                            </th>
+                            <th>
+                                @lang("order::text.status_id")
                             </th>
                             <th>
                                 @lang("order::text.updated_at")
@@ -106,18 +115,36 @@
                 name: 'id'
             },
             {
-                data: 'name',
-                name: 'name'
+                data: 'product_image',
+                name: 'product_image',
+                orderable: false,
+                searchable: false,
+            },
+            {
+                data: 'product_name',
+                name: 'product_name'
+            },
+            {
+                data: 'total_price',
+                name: 'total_price',
+                orderable: false,
+                searchable: false,
+            },
+            {
+                data: 'status_id',
+                name: 'status_id',
+                searchable: false,
             },
             {
                 data: 'updated_at',
-                name: 'updated_at'
+                name: 'updated_at',
+                searchable: false,
             },
             {
                 data: 'action',
                 name: 'action',
                 orderable: false,
-                searchable: false
+                searchable: false,
             }
         ]
     });

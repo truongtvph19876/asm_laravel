@@ -3,7 +3,11 @@
 return [
 
     'name' => 'Name',
+    'image' => 'Product Image',
+    'total_price' => 'Total Price',
+    'status_id' => 'Status',
     'slug' => 'Slug',
+    'quantity' => 'quantity',
     'description' => 'Description',
     'status' => 'Status',
     'created_by' => 'Created By',

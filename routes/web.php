@@ -28,10 +28,15 @@ Route::get('dashboard', 'App\Http\Controllers\Frontend\FrontendController@index'
 * --------------------------------------------------------------------
 */
 Route::group(['namespace' => 'App\Http\Controllers\Frontend', 'as' => 'frontend.'], function () {
-    Route::get('/', 'FrontendController@index')->name('index');
-    Route::get('home', 'FrontendController@index')->name('home');
     Route::get('privacy', 'FrontendController@privacy')->name('privacy');
     Route::get('terms', 'FrontendController@terms')->name('terms');
+
+    Route::get('/', 'FrontendController@index')->name('index');
+    Route::get('home', 'FrontendController@index')->name('home');
+    Route::get('list-product', 'FrontendController@list_product')->name('list.product');
+    //Order frontend routes
+    Route::get('order/{product}', 'FrontendController@order')->name('order');
+    Route::post('order/checkout/{product}', 'FrontendController@storeOrder')->name('order.checkout');
 
     Route::group(['middleware' => ['auth']], function () {
         /*

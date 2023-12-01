@@ -17,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/orders', function (Request $request) {
     return $request->user();
 });
+

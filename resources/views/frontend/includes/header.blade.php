@@ -40,63 +40,37 @@
                                     <div class="collapse navbar-collapse navbar-ex1-collapse">
                                         <ul class="nav navbar-nav">
                                             <li class="m-menu">
-                                                <a href="">Baby Wipes</a>
+                                                <a href="{{ route('frontend.list.product') }}">Shop</a>
                                             </li>
                                             <li class="dropdown m-menu">
-                                                <a href="" class="dropdown-toggle header-menu" data-toggle="dropdown">
-                                                    Teether
+                                                <a href="{{ route('frontend.list.product') }}" class="dropdown-toggle header-menu" data-toggle="dropdown">
+                                                    Brands
                                                     <i class="fa fa-angle-down"></i>
                                                 </a>
                                                 <div class="dropdown-menu">
-                                                    <div class="dropdown-inner">               <ul class="list-unstyled">
-                                                            <!--3rd level-->
-                                                            <li class="dropdown-submenu"> <a href="indexbe4c.html?route=product/category&amp;path=20_62" class="submenu-title"> Toy's Game (2) </a>
-                                                                <ul class="list-unstyled grand-child">
-                                                                    <li> <a href="index9655.html?route=product/category&amp;path=62_63"> Caption America (1) </a> </li>
-                                                                    <li> <a href="indexdbc0.html?route=product/category&amp;path=62_64"> Iron Man (1) </a> </li>
-                                                                </ul>
-                                                            </li>
-                                                            <!--3rd level over-->
-                                                        </ul>
+                                                    <div class="dropdown-inner">
                                                         <ul class="list-unstyled">
                                                             <!--3rd level-->
-                                                            <li class="dropdown-submenu"> <a href="indexd9fe.html?route=product/category&amp;path=20_26" class="submenu-title"> Sport's Game (3) </a>
+                                                            <li class="dropdown-submenu"> <a href="{{ route('frontend.list.product') }}" class="submenu-title"> All Brand</a>
                                                                 <ul class="list-unstyled grand-child">
-                                                                    <li> <a href="index9bed.html?route=product/category&amp;path=26_61"> Cricket Set (1) </a> </li>
-                                                                    <li> <a href="indexed29.html?route=product/category&amp;path=26_27"> Football (2) </a> </li>
+                                                                    @foreach($brands = \Modules\Brand\Models\Brand::query()->whereNotIn('id', [1])->get() as $brand)
+                                                                        <li>
+                                                                            <a href="{{ route('frontend.list.product') }}?brand={{$brand->brand_name}}">{{$brand->brand_name}}</a>
+                                                                        </li>
+                                                                    @endforeach
                                                                 </ul>
                                                             </li>
                                                             <!--3rd level over-->
                                                         </ul>
                                                     </div>
-                                                    <a href="index98dc.html?route=product/category&amp;path=20" class="see-all hidden-md hidden-lg">Show All Teether</a> </div>
+                                                </div>
                                             </li>
-                                            <li class="dropdown m-menu"><a href="index1647.html?route=product/category&amp;path=25" class="dropdown-toggle header-menu" data-toggle="dropdown">Toys<i class="fa fa-angle-down"></i></a>
-                                                <div class="dropdown-menu">
-                                                    <div class="dropdown-inner">               <ul class="list-unstyled">
-                                                            <!--3rd level-->
-                                                            <li class="dropdown-submenu"> <a href="index68a7.html?route=product/category&amp;path=25_30" class="submenu-title"> Other Toy's (1) </a>
-                                                                <ul class="list-unstyled grand-child">
-                                                                    <li> <a href="index7689.html?route=product/category&amp;path=30_66"> Anna (1) </a> </li>
-                                                                    <li> <a href="index3ff5.html?route=product/category&amp;path=30_65"> Elsa (1) </a> </li>
-                                                                </ul>
-                                                            </li>
-                                                            <!--3rd level over-->
-                                                        </ul>
-                                                        <ul class="list-unstyled">
-                                                            <!--3rd level-->
-                                                            <li class="dropdown-submenu"> <a href="indexe177.html?route=product/category&amp;path=25_28" class="submenu-title"> Princess Doll's (6) </a>
-                                                                <ul class="list-unstyled grand-child">
-                                                                    <li> <a href="index43ee.html?route=product/category&amp;path=28_35"> Dancing Cactus (1) </a> </li>
-                                                                    <li> <a href="indexf6ce.html?route=product/category&amp;path=28_36"> Toy Scooter (4) </a> </li>
-                                                                </ul>
-                                                            </li>
-                                                            <!--3rd level over-->
-                                                        </ul>
-                                                    </div>
-                                                    <a href="index1647.html?route=product/category&amp;path=25" class="see-all hidden-md hidden-lg">Show All Toys</a> </div>
+                                            <li class="m-menu">
+                                                <a href="#">News</a>
                                             </li>
-                                            <li class="m-menu"><a href="index370c.html?route=product/category&amp;path=68">Bath</a></li>
+                                            <li class="m-menu">
+                                                <a href="#">Contact</a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -135,40 +109,16 @@
                                 <div id="search_block_top">
                                     <select id="madebyhand-search-category">
                                         <option value="0">Categories</option>
-                                        <option value="59">Baby Wipes</option>
-                                        <option value="20">Teether</option>
-                                        <option value="62">&nbsp;&nbsp;&nbsp;&nbsp;Toy's Game</option>
-                                        <option value="63">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Caption America</option>
-                                        <option value="64">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Iron Man</option>
-                                        <option value="26">&nbsp;&nbsp;&nbsp;&nbsp;Sport's Game</option>
-                                        <option value="61">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cricket Set</option>
-                                        <option value="27">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Football</option>
-                                        <option value="18">Shoes</option>
-                                        <option value="25">Toys</option>
-                                        <option value="30">&nbsp;&nbsp;&nbsp;&nbsp;Other Toy's</option>
-                                        <option value="66">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anna</option>
-                                        <option value="65">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elsa</option>
-                                        <option value="28">&nbsp;&nbsp;&nbsp;&nbsp;Princess Doll's</option>
-                                        <option value="35">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dancing Cactus</option>
-                                        <option value="36">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Toy Scooter</option>
-                                        <option value="17">Fashion</option>
-                                        <option value="33">Cloth</option>
-                                        <option value="67">Bedroom</option>
-                                        <option value="68">Bath</option>
                                     </select>
-                                    <div class="input-group">
-                                        <input type="text" name="search" value="" placeholder="Search" class="search_query form-control input-lg madebyhand-search" />
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn btn-primary btn-lg"><i class="fa fa-search  hidden-sm hidden-md hidden-lg"></i><span>Search</span></button>
-                                            <a href="javascript:void(0)" class="closebtn close-nav" onclick="closeSearch()"><i class="fa fa-close"></i></a>
+                                    <form action="{{ route('frontend.list.product') }}">
+                                        <div class="input-group">
+                                            <input type="text" name="search" value="" placeholder="Search" class="search_query form-control input-lg madebyhand-search" style="width: 100%!important;"/>
+                                            <div class="input-group-btn">
+                                                <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-search  hidden-sm hidden-md hidden-lg"></i><span>Search</span></button>
+                                                <a href="javascript:void(0)" class="closebtn close-nav" onclick="closeSearch()"><i class="fa fa-close"></i></a>
+                                            </div>
                                         </div>
-                                        <!-- madebyhand Search Start  -->
-                                        <div class="madebyhand-search text-left">
-                                            <div class="madebyhand-search-loader" style="display: none;"><div class="loaders"></div></div><!-- Add Loader -->
-                                            <div class="madebyhand-search-result"><!-- search results --></div>
-                                        </div>
-                                        <!-- madebyhand Search End  -->
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </li>
@@ -214,6 +164,11 @@
                                                 </ul>
                                             </div>
                                     </li>
+                                    <li class="xsla  d-inline-block text-left">
+                                        <a href="{{ route('frontend.orders.index') }}" class="btn-link dropdown-toggle test">
+                                            <span>Đơn hàng</span>
+                                        </a>
+                                    </li>
                                     @endauth
                                 @guest
                                     <li class="acd">
@@ -225,45 +180,6 @@
                                     <li class="acd"><a href="{{ route('register') }}"><i class="fa fa-user-plus"></i> Register</a></li>
                                     <li class=" wishcom"><a href="index6431.html?route=product/compare"><i class="fa fa-compress"></i>compare</a></li>
                                 @endguest
-                                <li class="xscu d-inline-block text-left">
-                                    <form action="https://opencart.dostguru.com/KS02/birthblessing_03/index.php?route=common/language/language" method="post" enctype="multipart/form-data" id="form-language">
-                                        <div class="btn-group">
-                                            <button class="btn-link dropdown-toggle test" data-toggle="dropdown">
-
-                                                <span>English</span>
-                                                &nbsp;<i class="fa fa-angle-down"></i></button>
-                                            <ul class="dropdown-menu dropdown-menu-right langcdrop">
-                                                <li>
-                                                    <button class="btn btn-link language-select" type="button" name="en-gb"><img src="catalog/language/en-gb/en-gb.png" alt="English" title="English" /> English</button>
-                                                </li>
-                                                <li>
-                                                    <button class="btn btn-link language-select" type="button" name="ar"><img src="catalog/language/ar/ar.png" alt="Arabic" title="Arabic" /> Arabic</button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <input type="hidden" name="code" value="" />
-                                        <input type="hidden" name="redirect" value="index9328.html?route=common/home" />
-                                    </form>
-                                </li>
-                                <li class="xsla  d-inline-block text-left">  <form action="https://opencart.dostguru.com/KS02/birthblessing_03/index.php?route=common/currency/currency" method="post" enctype="multipart/form-data" id="form-currency">
-                                        <div class="btn-group">
-                                            <button class="btn-link dropdown-toggle test" data-toggle="dropdown">                               <strong>$</strong>        <span>Currency</span>&nbsp;<i class="fa fa-angle-down"></i></button>
-                                            <ul class="dropdown-menu dropdown-menu-left langcdrop">
-                                                <li>
-                                                    <button class="currency-select btn btn-link" type="button" name="EUR">€ Euro</button>
-                                                </li>
-                                                <li>
-                                                    <button class="currency-select btn btn-link" type="button" name="GBP">£ Pound Sterling</button>
-                                                </li>
-                                                <li>
-                                                    <button class="currency-select btn btn-link" type="button" name="USD">$ US Dollar</button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <input type="hidden" name="code" value="" />
-                                        <input type="hidden" name="redirect" value="index9328.html?route=common/home" />
-                                    </form>
-                                </li>
                             </ul>
                         </li>
                         <li class="wishcom text-center">
@@ -277,13 +193,34 @@
                         <li><div id="cart" class="btn-group btn-block">
                                 <button type="button" data-toggle="dropdown" data-loading-text="Loading..." class="dropdown-toggle">
                                     <div class="svg-bg">
-                                        <svg><use xlink:href="#hcart"></use></svg><span id="cart-total"> <span class="cartt">0</span><span class="hidden-xs  hidden-xs  caritem"> <strong>$0.00</strong> </span></span>
+                                        <svg><use xlink:href="#hcart"></use></svg><span id="cart-total"> <span class="cartt">{{ count(Session::get('cart', [])) }}</span><span class="hidden-xs  hidden-xs  caritem"> <strong>$0.00</strong> </span></span>
                                     </div>
                                 </button>
-                                <ul class="dropdown-menu pull-right">
-                                    <li>
-                                        <p class="text-center">Your shopping cart is empty!</p>
-                                    </li>
+                                <ul id="cart-item" class="dropdown-menu pull-right" style="min-width: 400px; max-width: 500px; max-height: 400px; overflow: hidden; overflow-y: scroll">
+
+                                    @forelse(Session::get('cart', []) as $index => $cart)
+                                        <li class="row d-flex">
+                                            <div class="col-md-4">
+                                                <img src="{{ Storage::url($cart->product_image) }}" alt="" style="width: 100%">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="row overflow-hidden">
+                                                    <div class="col-md-12">{{ $cart->product_name }}</div>
+                                                    <div class="col-md-12">{{ number_format($cart->product_price, 0, '', '.') }}đ</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <a href="{{ route('frontend.order', $cart) }}" class="w-100 btn btn-success text-center" style="width: 100%">Mua</a>
+                                                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                                <button onclick="deleteCartItem({{$index}})" class="w-100 btn  text-center" style="width: 100%">Xoa</button>
+                                            </div>
+                                        </li>
+                                        <hr>
+                                    @empty
+                                        <li>
+                                            <p class="text-center">Giỏ hàng trống!</p>
+                                        </li>
+                                    @endforelse
                                 </ul>
                             </div>
                         </li>
@@ -294,3 +231,7 @@
     </div>
 
 </header>
+
+<script>
+
+</script>

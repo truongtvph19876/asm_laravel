@@ -76,10 +76,10 @@
                                 {{ $module_name_singular->id }}
                             </td>
                             <td>
-                                <a href="{{ url("admin/$module_name", $module_name_singular->id) }}">{{ $module_name_singular->name }}</a>
+                                <a href="{{ url("admin/$module_name", $module_name_singular->id) }}">{{ $module_name_singular->product_name }}</a>
                             </td>
                             <td>
-                                {{ $module_name_singular->slug }}
+                                {{ $module_name_singular->quantity }}
                             </td>
                             <td>
                                 {{ $module_name_singular->updated_at->diffForHumans() }}

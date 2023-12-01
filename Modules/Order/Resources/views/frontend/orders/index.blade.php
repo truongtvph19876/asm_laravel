@@ -3,40 +3,54 @@
 @section('title') {{ __($module_title) }} @endsection
 
 @section('content')
-
-<section class="bg-gray-100 text-gray-600 py-20">
-    <div class="container mx-auto flex px-5 items-center justify-center flex-col">
-        <div class="text-center lg:w-2/3 w-full">
-            <h1 class="text-3xl sm:text-4xl mb-4 font-medium text-gray-800">
-                {{ __($module_title) }}
-            </h1>
-            <p class="mb-8 leading-relaxed">
-                The list of {{ __($module_name) }}.
-            </p>
-
-            @include('frontend.includes.messages')
+    <div class="container">
+        <div class="row">
+            <ul class="breadcrumb">
+                <li><a href="/"><i class="fa fa-home"></i></a></li>
+                <li><a href="{{ route('frontend.orders.index') }}">{{ $module_name }}</a></li>
+            </ul>
         </div>
     </div>
-</section>
-
-<section class="bg-white text-gray-600 p-6 sm:p-20">
-    <div class="grid grid-cols-2 sm:grid-cols-3 gap-6">
-        @foreach ($$module_name as $$module_name_singular)
-        @php
-        $details_url = route("frontend.$module_name.show",[encode_id($$module_name_singular->id), $$module_name_singular->slug]);
-        @endphp
-        
-        <x-frontend.card :url="$details_url" :name="$$module_name_singular->name">
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                {{$$module_name_singular->description}}
-            </p>
-        </x-frontend.card>
-
-        @endforeach
+    <div class=" container">
+        <h2 class="text-center">Đơn hàng</h2>
+        <table class="table table--line wishlists-table">
+            <thead class="table-thead">
+            <tr class="row">
+                <th class="col-md-1">STT</th>
+                <th class="col-md-1">Image</th>
+                <th class="col-md-6">Name</th>
+                <th class="col-md-1">Quantity</th>
+                <th class="col-md-1">Total price</th>
+                <th class="col-md-2">Trạng thái</th>
+            </tr>
+            </thead>
+            <tbody class="table-tbody">
+                @forelse($$module_name as $index => $order)
+                    <tr class="row">
+                        <td class="col-md-1">{{ $index+1 }}</td>
+                        <td class="col-md-1"><img src="{{ Storage::url($order->product->product_image) }}" alt="" style="width: 100%;"></td>
+                        <td class="col-md-6">{{ $order->product_name }}</td>
+                        <td class="col-md-1">{{ $order->quantity }}</td>
+                        <td class="col-md-1">{{ $order->quantity * $order->unit_price }}</td>
+                        <td class="col-md-2">
+                            @php
+                                $red_flag = [1, 6, 7];
+                                $status_html = '';
+                                if (in_array($order->status->id, $red_flag)) {
+                                    $status_html = "<p class='badge' style='background: red'>".$order->status->status."</p><p></p>";
+                                } else {
+                                    $status_html = "<p class='badge' style='background: green'>".$order->status->status."</p><p></p>";
+                                }
+                            @endphp
+                            {!! $status_html !!}
+                            <a href="{{ route('frontend.orders.show', $order) }}" class="btn btn-primary">Chi tiết</a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr><td colspan="20" class="text-center"><h2>Không có đơn hàng nào</h2><a href="/" class="btn">Mua hàng</a></td></tr>
+                @endforelse
+            </tbody>
+        </table>
+        {{ $$module_name->render() }}
     </div>
-    <div class="d-flex justify-content-center w-100 mt-3">
-        {{$$module_name->links()}}
-    </div>
-</section>
-
 @endsection

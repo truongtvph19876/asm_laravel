@@ -5091,7 +5091,7 @@ a.list-group-item:focus, a.list-group-item:hover, button.list-group-item:focus, 
 		max-width: 200px;
 	}
 	#search .input-lg{
-		max-width: 170px;
+		width: 100%;
 	}
 	.hbottom {
 		padding: 12px 0;
@@ -8233,4 +8233,12 @@ a.list-group-item:focus, a.list-group-item:hover, button.list-group-item:focus, 
 	.product-thumb{
 		border-radius: 5px;
 	}
+}
+
+.color-red {
+ color:red;
+}
+
+.color-green {
+    color:green;
 }

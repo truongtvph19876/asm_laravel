@@ -55,7 +55,7 @@ $(document).ready(function() {
 			url += '&search=' + encodeURIComponent(value);
 		}
 
-		// madebyhand Search Start 
+		// madebyhand Search Start
         var category_id = $('#madebyhand-search-category').val();
         if (category_id > 0) {
             url += '&category_id=' + encodeURIComponent(category_id);
@@ -75,8 +75,8 @@ $(document).ready(function() {
      * Unauthorized copying of this file, via any medium is strictly prohibited
      * Proprietary and confidential
      * Written by Romit Sachani <info@winterinfotech.com>, March 2019
-     */  
-    // madebyhand Search Start 
+     */
+    // madebyhand Search Start
     $(".madebyhand-search").keyup(function(){
         if(($(this).val()).length >= 3) {
             var category_id = $('#madebyhand-search-category').val();
@@ -170,7 +170,7 @@ $(document).ready(function() {
 var cart = {
 	'add': function(product_id, quantity) {
 		$.ajax({
-			url: 'index.php?route=checkout/cart/add',
+			url: 'http://127.0.0.1:8000/api/cart',
 			type: 'post',
 			data: 'product_id=' + product_id + '&quantity=' + (typeof(quantity) != 'undefined' ? quantity : 1),
 			dataType: 'json',
@@ -187,7 +187,7 @@ var cart = {
                 }
                 if (json.success) {
                     $('#content').parent().before('<div class="a-one"><div class="alert alert-success alert-dismissible alertsuc"><svg width="20px" height="20px"> <use xlink:href="#successi"></use> </svg> ' + json.success + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div></div>');
-                    
+
                     setTimeout(function() {
                         $('#cart > button').html('<div class="svg-bg"><svg><use xlink:href="#hcart"></use></svg><span id="cart-total"> ' + json['total'] + '</span></div>');
                     }, 100);

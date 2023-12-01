@@ -7,5 +7,6 @@
     "User": true,
     "Test": true,
     "Attribute": true,
-    "Brand": true
+    "Brand": true,
+    "Order": true
 }
