@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
         @if(session()->has('error')) <h3 class="text-center">{!! session()->get('error') !!}</h3> @endif
-        <form action="{{ route('frontend.order.checkout', $product) }}" method="POST">
+        <form action="{{ route('frontend.order.checkout', $cartItem) }}" method="POST">
             @csrf
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -180,18 +180,18 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-4">
-                                <img src="{{ Storage::url($product->product_image) }}" alt="" style="width: 100%">
+                                <img src="{{ Storage::url($cartItem->product_image) }}" alt="" style="width: 100%">
                             </div>
                             <div class="col-md-6">
                                 <div class="row overflow-hidden">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Sản phẩm: <span style="font-weight: bold;">{{ $product->product_name }}</span>
+                                            Sản phẩm: <span style="font-weight: bold;">{{ $cartItem->product_name }}</span>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Giá: <span style="font-weight: bold; color: red">{{ number_format($product->product_price, 0, '', '.') }} đ</span>
+                                            Giá: <span style="font-weight: bold; color: red">{{ number_format($cartItem->product_price, 0, '', '.') }} đ</span>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -201,8 +201,8 @@
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
 
-                                            <input id="input-quantity" type="number" name="quantity" value="1" size="2" id="input-quantity" style="max-width: 80px" class="form-control input-number pull-left" />
-                                            <input type="hidden" name="product_id" value="{{ $product->id }}" />
+                                            <input id="input-quantity" type="number" name="quantity" value="{{ $cartItem->cart_quantity }}" size="2" id="input-quantity" style="max-width: 80px" class="form-control input-number pull-left" />
+                                            <input type="hidden" name="product_id" value="{{ $cartItem->id }}" />
 
                                             <button type="button" class="form-control pull-left btn-number btnplus" style="width: auto" data-type="plus" data-field="quantity">
                                                 <span class="glyphicon glyphicon-plus"></span>
@@ -233,7 +233,7 @@
 
     <script type="text/javascript">
         function totalPrice() {
-            total = {{ $product->product_price }} * $('#input-quantity').val()
+            total = {{ $cartItem->product_price }} * $('#input-quantity').val()
             totalFormat = new Intl.NumberFormat('vnd', {
                 style: 'currency',
                 currency: 'VND',
@@ -261,7 +261,7 @@
                         }
 
                     } else if (type == 'plus') {
-                        var maxValue = {{ $product->product_quantity ?? 0 }};
+                        var maxValue = {{ $cartItem->product_quantity ?? 0 }};
                         if (!maxValue) maxValue = 0;
                         if (currentVal < maxValue) {
                             input.val(currentVal + 1).change();
@@ -282,7 +282,7 @@
             });
             $('.input-number').change(function() {
                 var minValue = 1;
-                var maxValue = {{ $product->product_quantity ?? 0 }};
+                var maxValue = {{ $cartItem->product_quantity ?? 0 }};
                 if (!minValue) minValue = 1;
                 if (!maxValue) maxValue = 1;
                 var valueCurrent = parseInt($(this).val());
@@ -307,7 +307,7 @@
             // blur quantity input
             $(".input-number").blur((e) => {
                 quantity = e.target.value;
-                if(Number(quantity) > {{ $product->product_quantity ?? 0 }}) {
+                if(Number(quantity) > {{ $cartItem->product_quantity ?? 0 }}) {
                     e.target.value = 0;
                     alert('Không được vượt quá số lượng có sẵn');
                 }

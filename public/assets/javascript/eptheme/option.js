@@ -1,20 +1,52 @@
-function deleteCartItem(index) {
+
+function cartItemIncrement(itemId, number = 1) {
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('input[name="_token"]').val(),
         },
-        url: `http://127.0.0.1:8000/api/cart/${index}`,
+        url: 'http://127.0.0.1:8000/api/cart',
+        type: 'post',
+        data: {
+            "action": 'increment',
+            "product_id": itemId
+        },
+        dataType: 'json',
+    });
+}
+function cartItemDecrement(itemId, number = 1) {
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+        },
+        url: 'http://127.0.0.1:8000/api/cart',
+        type: 'post',
+        data: {
+            "action": 'decrement',
+            "product_id": itemId
+        },
+        dataType: 'json',
+    });
+}
+
+function deleteCartItem(id) {
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+        },
+        url: `http://127.0.0.1:8000/api/cart/${id}`,
         dataType : 'json',
         type: 'DELETE',
         success: function(data) {
+            if (data == 'error') return;
              var json = Object.keys(data).map(function (key) { return data[key]; });
             count = 0;
             json.forEach(()=>count++)
-                // Need to set timeout otherwise it wont update the total
-                setTimeout(function () {
-                    $('#cart > button').html('<div class=\'svg-bg\'><svg><use xlink:href=\'#hcart\'></use></svg><span id=\'cart-total\'> <span class=\'cartt\'>'+count+'</span><span class=\'hidden-xs  hidden-xs  caritem\'> <strong>$0.00</strong> </span></span></div>');
-                }, 100);
-
+            setTimeout(function () {
+                $('#cart > button').html('<div class=\'svg-bg\'><svg><use xlink:href=\'#hcart\'></use></svg><span id=\'cart-total\'> <span class=\'cartt\'>'+count+'</span><span class=\'hidden-xs  hidden-xs  caritem\'> <strong>$0.00</strong> </span></span></div>');
+            }, 100);
+            if (count <= 0) {
+                $('#cart-item').html('<li><p class="text-center">Giỏ hàng trống!</p></li>');
+            }
                 $('#cart-item').html(json.map((item, index)=> {
                     return `<li class="row d-flex">
                                             <div class="col-md-4">
@@ -24,11 +56,34 @@ function deleteCartItem(index) {
                                                 <div class="row overflow-hidden">
                                                     <div class="col-md-12">${item.product_name}</div>
                                                     <div class="col-md-12">${new Intl.NumberFormat('vnd', {style: 'currency',currency: 'VND',}).format(item.product_price)}</div>
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <span class="col-md-2">SL: </span>
+                                                            <span class="col-md-8">
+                                                            <input id="input-quantity" type="number" name="quantity" value="${item.cart_quantity}" size="2" id="input-quantity" style="max-width: 80px;max-height: 24px;" class="form-control input-number pull-left" />
+                                                            <input type="hidden" name="product_id" value="${item.id}" />
+                                                            </span>
+                                                            <script id="${item.id}">
+                                                                inputNumber${item.id} = document.getElementById('${item.id}').closest('.row').querySelector('input[name="quantity"]')
+                                                                oldValue${item.id} = inputNumber${item.id}.value
+                                                                productId${item.id} = document.getElementById('${item.id}').closest('.row').querySelector('input[name="product_id"]').value
+
+                                                                inputNumber${item.id}.onchange = function () {
+                                                                    if (this.value > oldValue${item.id}) {
+                                                                        cartItemIncrement(productId${item.id})
+                                                                    } else {
+                                                                        cartItemDecrement(productId${item.id})
+                                                                    }
+                                                                    oldValue${item.id} = this.value
+                                                                }
+                                                            </script>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
-                                                <a href="http://127.0.0.1:8000/order/${item.id}" class="w-100 btn btn-success text-center" style="width: 100%">Mua</a>
-                                                <button onclick="deleteCartItem(${index})" class="w-100 btn  text-center" style="width: 100%">Xoa</button>
+                                                <a href="http://127.0.0.1:8000/order/${item.id}" class="w-100 btn text-center" style="width: 100%">Mua</a>
+                                                <a onclick="deleteCartItem(${item.id})" class="w-100 btn text-center" style="width: 100%">Xoa</a>
                                             </div>
                                         </li>
                                         <hr>`
@@ -79,13 +134,17 @@ $(document).ready(function() {
 	$('.webi-option-select').on('change', webiOptionAjex);
 
 	$('.webi-cart').on('click', function() {
-		$.ajax({
+        product_body = $(this).parent().parent().parent().parent();
+        $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('input[name="_token"]').val(),
             },
 			url: 'http://127.0.0.1:8000/api/cart',
 			type: 'post',
-            data: $(this).parent().parent().parent().parent().find('input[type=\'text\'], input[type=\'hidden\'], input[type=\'radio\']:checked, input[type=\'checkbox\']:checked, select, input[name=\'_token\']'),
+            data: {
+                "product_id": product_body.find('input[name=\'product_id\']').val(),
+                "quantity" : product_body.find('input[name=\'quantity\']').val(),
+            },
             dataType: 'json',
 
 			beforeSend: function() {
@@ -97,6 +156,8 @@ $(document).ready(function() {
 			},
 
 			success: function(json) {
+                if (json == 'error') return;
+                var json = Object.keys(json).map(function (key) { return json[key]; });
                 count = 0;
                 json.forEach(()=>count++)
                 json['success'] = 'Sản phẩm đã được thêm vào giỏ hàng';
@@ -127,7 +188,9 @@ $(document).ready(function() {
 					setTimeout(function () {
 						$('#cart > button').html('<div class=\'svg-bg\'><svg><use xlink:href=\'#hcart\'></use></svg><span id=\'cart-total\'> <span class=\'cartt\'>'+count+'</span><span class=\'hidden-xs  hidden-xs  caritem\'> <strong>$0.00</strong> </span></span></div>');
 					}, 100);
-
+                    if (count <= 0) {
+                        $('#cart-item').html('<li><p class="text-center">Giỏ hàng trống!</p></li>');
+                    }
                     $('#cart-item').html(json.map((item, index)=> {
                         return `<li class="row d-flex">
                                             <div class="col-md-4">
@@ -137,11 +200,35 @@ $(document).ready(function() {
                                                 <div class="row overflow-hidden">
                                                     <div class="col-md-12">${item.product_name}</div>
                                                     <div class="col-md-12">${new Intl.NumberFormat('vnd', {style: 'currency',currency: 'VND',}).format(item.product_price)}</div>
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <span class="col-md-2">SL: </span>
+                                                            <span class="col-md-8">
+                                                            <input id="input-quantity" type="number" name="quantity" value="${item.cart_quantity}"
+                                                            size="2" style="max-width: 80px;max-height: 24px;" class="form-control input-number pull-left" />
+                                                            <input type="hidden" name="product_id" value="${item.id}" />
+                                                            </span>
+                                                            <script id="${item.id}">
+                                                                inputNumber${item.id} = document.getElementById('${item.id}').closest('.row').querySelector('input[name="quantity"]')
+                                                                oldValue${item.id} = inputNumber${item.id}.value
+                                                                productId${item.id} = document.getElementById('${item.id}').closest('.row').querySelector('input[name="product_id"]').value
+
+                                                                inputNumber${item.id}.onchange = function () {
+                                                                    if (this.value > oldValue${item.id}) {
+                                                                        cartItemIncrement(productId${item.id})
+                                                                    } else {
+                                                                        cartItemDecrement(productId${item.id})
+                                                                    }
+                                                                    oldValue${item.id} = this.value
+                                                                }
+                                                            </script>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
-                                                <a href="http://127.0.0.1:8000/order/${item.id}" class="w-100 btn btn-success text-center" style="width: 100%">Mua</a>
-                                                <button onclick="deleteCartItem(${index})" class="w-100 btn  text-center" style="width: 100%">Xoa</button>
+                                                <a href="http://127.0.0.1:8000/order/${item.id}" class="w-100 btn text-center" style="width: 100%">Mua</a>
+                                                <a onclick="deleteCartItem(${item.id})" class="w-100 btn text-center" style="width: 100%">Xoa</a>
                                             </div>
                                         </li>
                                         <hr>`

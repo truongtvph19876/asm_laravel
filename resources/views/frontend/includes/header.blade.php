@@ -196,7 +196,7 @@
                                         <svg><use xlink:href="#hcart"></use></svg><span id="cart-total"> <span class="cartt">{{ count(Session::get('cart', [])) }}</span><span class="hidden-xs  hidden-xs  caritem"> <strong>$0.00</strong> </span></span>
                                     </div>
                                 </button>
-                                <ul id="cart-item" class="dropdown-menu pull-right" style="min-width: 400px; max-width: 500px; max-height: 400px; overflow: hidden; overflow-y: scroll">
+                                <ul id="cart-item" class="dropdown-menu pull-right" style="min-width: 450px; max-width: 600px; max-height: 400px; overflow: hidden; overflow-y: scroll">
 
                                     @forelse(Session::get('cart', []) as $index => $cart)
                                         <li class="row d-flex">
@@ -207,12 +207,34 @@
                                                 <div class="row overflow-hidden">
                                                     <div class="col-md-12">{{ $cart->product_name }}</div>
                                                     <div class="col-md-12">{{ number_format($cart->product_price, 0, '', '.') }}đ</div>
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <span class="col-md-2">SL: </span>
+                                                            <span class="col-md-8">
+                                                            <input id="input-quantity" type="number" min="1" max="{{$cart->product_quantity}}" name="quantity" value="{{ $cart->cart_quantity }}" size="2" style="max-width: 80px;max-height: 24px;" class="form-control input-number pull-left" />
+                                                            <input type="hidden" name="product_id" value="{{ $cart->id }}" />
+                                                            </span>
+                                                            <script>
+                                                                inputNumber{{$index}} = $(document.currentScript).closest('.row').find('input[name="quantity"]')
+                                                                oldValue{{$index}} = inputNumber{{$index}}.val()
+                                                                productId{{$index}} = $(document.currentScript).closest('.row').find('input[name="product_id"]').val()
+                                                                inputNumber{{$index}}.on('change', function (){
+                                                                    if ($(this).val() > oldValue{{$index}}) {
+                                                                        cartItemIncrement(productId{{$index}})
+                                                                    } else {
+                                                                        cartItemDecrement(productId{{$index}})
+                                                                    }
+                                                                    oldValue{{$index}} = inputNumber{{$index}}.val()
+                                                                })
+                                                            </script>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
-                                                <a href="{{ route('frontend.order', $cart) }}" class="w-100 btn btn-success text-center" style="width: 100%">Mua</a>
+                                                <a href="{{ route('frontend.order', $cart) }}" class="w-100 btn text-center" style="width: 100%">Mua</a>
                                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                                <button onclick="deleteCartItem({{$index}})" class="w-100 btn  text-center" style="width: 100%">Xoa</button>
+                                                <a onclick="deleteCartItem({{$cart->id}})" class="w-100 btn text-center" style="width: 100%">Xoa</a>
                                             </div>
                                         </li>
                                         <hr>

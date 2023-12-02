@@ -29,7 +29,6 @@ class FrontendController extends Controller
 
     public function index()
     {
-        //SELECT * FROM `products` WHERE id IN (SELECT product_id FROM `orders` GROUP BY product_id ORDER BY COUNT(product_id) DESC)
         $product_feature = Product::query()->get();
 
         $product_bestseller = Product::select('*')
@@ -94,15 +93,30 @@ class FrontendController extends Controller
     }
 
     public function cart(Request $request) {
+//        $request->session()->put('cart', []);
+//        return response()->json($request->product_id);
 
         $product = Product::find($request->product_id);
+
         if ($product) {
-            $old_cart = \session()->get('cart', []);
-            $new_cart = [
-                $product,
-                ...$old_cart,
-            ];
-            $request->session()->put('cart', $new_cart);
+            if ($product->product_quantity <= 0 ) return response()->json('error');
+
+            $cart = Session::get('cart', []);
+
+            if (array_key_exists($request->product_id, $cart)){
+
+                if ($request->action == 'decrement')
+                    $product->cart_quantity = $cart[$request->product_id]->cart_quantity -=1;
+                else
+                    $product->cart_quantity = $cart[$request->product_id]->cart_quantity +=1;
+            } else {
+                $product->cart_quantity = 1;
+            }
+
+            if ($request->quantity) $product->cart_quantity = $request->quantity;
+
+            $cart[$request->product_id] =$product;
+            $request->session()->put('cart', $cart);
             return response()->json(Session::get('cart'));
         }
         else
@@ -110,20 +124,28 @@ class FrontendController extends Controller
     }
 
     public function destroyCart($id, Request $request) {
-        $cartIndex = $id;
-        $carts = Session::get('cart');
-        unset($carts[$cartIndex]);
-        $new_cart = array_values($carts);
-        $request->session()->put('cart', $new_cart);
+        $carts = Session::get('cart', []);
+        if (isset($carts[$id])) {
+            unset($carts[$id]);
+        } else {
+            $carts = Session::get('cart', []);
+        }
+        $request->session()->put('cart', $carts);
         return response()->json(Session::get('cart'));
     }
 
     public function order($product) {
 
-        $product = Product::find($product);
-        if (!$product) $product = [];
+        define('product_id', Product::find($product)->id);
+        $cart = Session::get('cart', []);
+        $cartItem = array_filter($cart, function ($item) {
+            return $item->id == product_id;
+        });
+        $cartItem = array_values($cartItem);
+        $cartItem = $cartItem[0];
+        if (!$cartItem) $cartItem = [];
 
-        return view('frontend.orders.index', compact('product'));
+        return view('frontend.orders.index', compact('cartItem'));
     }
 
     public function storeOrder(Request $request) {

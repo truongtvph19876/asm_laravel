@@ -133,7 +133,7 @@
     <div class="copy text-center">
         <div class="container">
             <div class="row">
-                <div class="fpow col-md-6 col-sm-6 text-left">Powered By <a href="#">OpenCart</a> Birth Blessing &copy; 2023</div>
+                <div class="fpow col-md-6 col-sm-6 text-left">Powered By <a href="#">Truongtv26</a> Birth Blessing &copy; 2023</div>
                 <div class="col-md-6 col-sm-6 col-xs-12 text-right">
                     <ul class="list-inline list-unstyled fpayment">
                         <li><svg width="35px" height="35px"><use xlink:href="#ae"></use></svg></li>

@@ -88,13 +88,14 @@
                                                 <button type="button" class="form-control pull-left btn-number btnminus" disabled="disabled" data-type="minus" data-field="quantity">
                                                     <span class="glyphicon glyphicon-minus"></span>
                                                 </button>
-                                                <input id="input-quantity" type="text" name="quantity" value="1" size="2" id="input-quantity" class="form-control input-number pull-left" />
+                                                <input id="input-quantity" type="text" name="quantity" value="1" size="2" min="1" max="{{ $$module_name_singular->product_quantity }}" class="form-control input-number-1 pull-left" />
                                                 <input type="hidden" name="product_id" value="{{ $$module_name_singular->id }}" />
                                                 <button type="button" class="form-control pull-left btn-number btnplus" data-type="plus" data-field="quantity">
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                 </button>
                                             </div>
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 product-btn">
+                                                <input type="hidden" name="_token" value="{{csrf_token()}}">
                                                 <button type="button" id="button-cart" data-loading-text="Loading..." class="btn pcrt add-to-cart btn-primary webi-cart">add to cart</button>
                                                 <button type="button" class="btn pcrt btn-primary" onclick="wishlist.add('48');"><svg width="18px" height="17px"><use xlink:href="#heart" /></svg></button>
                                             </div>
@@ -185,137 +186,6 @@
             </div></div>
     </div>
     </div>
-    <script type="text/javascript">
-        $('.webi-cart').on('click', function() {
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-                },
-                url: 'http://127.0.0.1:8000/api/cart',
-                type: 'post',
-                data: {
-                    "product_id" = 1,
-                },
-                dataType: 'json',
-
-                beforeSend: function() {
-                    $('#cart > button').button('loading');
-                },
-
-                complete: function() {
-                    $('#cart > button').button('reset');
-                },
-
-                success: function(json) {
-                    console.log(json)
-                    count = 0;
-                    json.forEach(()=>count++)
-                    json['success'] = 'Sản phẩm đã được thêm vào giỏ hàng';
-
-                    $('.alert-dismissible, .text-danger').remove();
-                    if (json['success']) {
-                        $('#content').parent().before('<div class="a-one"><div class="alert alert-success alert-dismissible alertsuc"><svg width="20px" height="20px"> <use xlink:href="#successi"></use></svg> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div></div>');
-
-                        // Need to set timeout otherwise it wont update the total
-                        setTimeout(function () {
-                            $('#cart > button').html('<div class=\'svg-bg\'><svg><use xlink:href=\'#hcart\'></use></svg><span id=\'cart-total\'> <span class=\'cartt\'>'+count+'</span><span class=\'hidden-xs  hidden-xs  caritem\'> <strong>$0.00</strong> </span></span></div>');
-                        }, 100);
-
-                        $('#cart-item').html(json.map((item, index)=> {
-                            return `<li class="row d-flex">
-                                            <div class="col-md-4">
-                                                <img src="/storage/${item.product_image}" alt="" style="width: 100%">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="row overflow-hidden">
-                                                    <div class="col-md-12">${item.product_name}</div>
-                                                    <div class="col-md-12">${new Intl.NumberFormat('vnd', {style: 'currency',currency: 'VND',}).format(item.product_price)}</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <a href="http://127.0.0.1:8000/order/${item.id}" class="w-100 btn btn-success text-center" style="width: 100%">Mua</a>
-                                                <button onclick="deleteCartItem(${index})" class="w-100 btn  text-center" style="width: 100%">Xoa</button>
-                                            </div>
-                                        </li>
-                                        <hr>`
-                        }).join(''))
-                    }
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-                }
-            });
-        });
-    </script>
-    <script type="text/javascript"><!--
-        $('.date').datetimepicker({
-            language: 'en-gb',
-            pickTime: false
-        });
-
-        $('.datetime').datetimepicker({
-            language: 'en-gb',
-            pickDate: true,
-            pickTime: true
-        });
-
-        $('.time').datetimepicker({
-            language: 'en-gb',
-            pickDate: false
-        });
-
-        $('button[id^=\'button-upload\']').on('click', function() {
-            var node = this;
-
-            $('#form-upload').remove();
-
-            $('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
-
-            $('#form-upload input[name=\'file\']').trigger('click');
-
-            if (typeof timer != 'undefined') {
-                clearInterval(timer);
-            }
-
-            timer = setInterval(function() {
-                if ($('#form-upload input[name=\'file\']').val() != '') {
-                    clearInterval(timer);
-
-                    $.ajax({
-                        url: 'index.php?route=tool/upload',
-                        type: 'post',
-                        dataType: 'json',
-                        data: new FormData($('#form-upload')[0]),
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        beforeSend: function() {
-                            $(node).button('loading');
-                        },
-                        complete: function() {
-                            $(node).button('reset');
-                        },
-                        success: function(json) {
-                            $('.text-danger').remove();
-
-                            if (json['error']) {
-                                $(node).parent().find('input').after('<div class="text-danger">' + json['error'] + '</div>');
-                            }
-
-                            if (json['success']) {
-                                alert(json['success']);
-
-                                $(node).parent().find('input').val(json['code']);
-                            }
-                        },
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-                        }
-                    });
-                }
-            }, 500);
-        });
-        //--></script>
     <!--for product quantity plus minus-->
     <script type="text/javascript">
         //plugin bootstrap minus and plus
@@ -352,10 +222,10 @@
                     input.val(0);
                 }
             });
-            $('.input-number').focusin(function(){
+            $('.input-number-1').focusin(function(){
                 $(this).data('oldValue', $(this).val());
             });
-            $('.input-number').change(function() {
+            $('.input-number-1').change(function() {
 
                 var minValue = parseInt($(this).attr('min'));
                 var maxValue = parseInt($(this).attr('max'));
@@ -366,17 +236,17 @@
                 if (valueCurrent >= minValue) {
                     $(".btn-number[data-type='minus'][data-field='" + name + "']").removeAttr('disabled')
                 } else {
-                    alert('Sorry, the minimum value was reached');
+                    alert('Số lượng không hợp lệ');
                     $(this).val($(this).data('oldValue'));
                 }
                 if (valueCurrent <= maxValue) {
                     $(".btn-number[data-type='plus'][data-field='" + name + "']").removeAttr('disabled')
                 } else {
-                    alert('Sorry, the maximum value was reached');
+                    alert('Không được vượt quá số lượng có sẵn');
                     $(this).val($(this).data('oldValue'));
                 }
             });
-            $(".input-number").keydown(function (e) {
+            $(".input-number-1").keydown(function (e) {
                 // Allow: backspace, delete, tab, escape, enter and .
                 if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== - 1 ||
                     // Allow: Ctrl+A
