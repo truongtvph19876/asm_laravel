@@ -41,7 +41,7 @@ class FrontendController extends Controller
             })
             ->get();
 
-        $product_latest = Product::query()->orderBy('created_at', 'ASC')->paginate(10);
+        $product_latest = Product::query()->orderBy('id', 'DESC')->paginate(10);
         $brands = Brand::query()->get()->whereNotIn('id', 1);
         return view('frontend.index',
             compact('product_feature', 'product_bestseller', 'product_latest',
@@ -57,10 +57,9 @@ class FrontendController extends Controller
             ->first();
 
         if ($brand_filter) {
-            $products = Product::query()
-                ->where('brand_id', [$brand_filter->id])
-                ->paginate();
+            $products = Brand::find($brand_filter->id)->product;
         }
+
         elseif ($request->query('search') != '') {
             $products = Product::query()
                 ->where('product_name', 'LIKE', "%".$request->query('search')."%")
@@ -93,6 +92,7 @@ class FrontendController extends Controller
     }
 
     public function cart(Request $request) {
+//        return response()->json($request->all());
 //        $request->session()->put('cart', []);
 //        return response()->json($request->product_id);
 

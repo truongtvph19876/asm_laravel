@@ -29,6 +29,14 @@ class Product extends BaseModel
         return $this->belongsTo('Modules\Brand\Models\Brand');
     }
 
+    public function product_related_brand() {
+        $products = Product::query()
+            ->where('brand_id', $this->brand_id)
+            ->whereNotIn('id', [$this->id])
+            ->get();
+        return $products;
+    }
+
     /**
      * Create a new factory instance for the model.
      *

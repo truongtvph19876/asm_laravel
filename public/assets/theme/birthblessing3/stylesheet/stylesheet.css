@@ -112,6 +112,20 @@ div.required .control-label:before {
 		width: 1600px;
 	}
 }
+
+.mx-auto {
+    margin: 0 auto;
+}
+
+.mt-1 {
+    margin-top: 4px;
+}
+.mt-2 {
+    margin-top: 8px;
+}
+.mt-3 {
+    margin-top: 12px;
+}
 .form-control{
 	box-shadow: none;
 	border: 1px solid #eee;

@@ -34,6 +34,10 @@ class Brand extends BaseModel
         return \Modules\Brand\database\factories\BrandFactory::new();
     }
 
+    public function product() {
+        return $this->hasMany(Product::class, 'brand_id', 'id');
+    }
+
     public function countProductInBrand() {
         $product = Product::select('brand_id', DB::raw('COUNT(brand_id) AS total'))
             ->groupBy('brand_id')

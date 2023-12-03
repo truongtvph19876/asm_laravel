@@ -134,19 +134,19 @@ $(document).ready(function() {
 	$('.webi-option-select').on('change', webiOptionAjex);
 
 	$('.webi-cart').on('click', function() {
+        console.log($('meta[name="csrf-token"]').attr('content'))
         product_body = $(this).parent().parent().parent().parent();
         $.ajax({
             headers: {
-                'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                'X-XSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
 			url: 'http://127.0.0.1:8000/api/cart',
 			type: 'post',
             data: {
                 "product_id": product_body.find('input[name=\'product_id\']').val(),
-                "quantity" : product_body.find('input[name=\'quantity\']').val(),
+                "quantity": product_body.find('input[name=\'quantity\']').val(),
             },
             dataType: 'json',
-
 			beforeSend: function() {
 				$('#cart > button').button('loading');
 			},
@@ -236,7 +236,7 @@ $(document).ready(function() {
 				}
 			},
 			error: function(xhr, ajaxOptions, thrownError) {
-				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 			}
 		});
 	});

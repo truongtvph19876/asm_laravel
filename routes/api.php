@@ -22,3 +22,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Frontend', 'as' => 'frontend.
     Route::post('cart', 'FrontendController@cart');
     Route::delete('cart/{id}', 'FrontendController@destroyCart');
 });
+Route::post('testCart', function (Request $req) {
+    return response()->json($req->header('X-CSRF-TOKEN'));
+});

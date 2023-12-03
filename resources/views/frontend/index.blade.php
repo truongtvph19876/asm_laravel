@@ -20,7 +20,7 @@
 
                 @include('frontend.partials.brand')
 
-                @include('frontend.partials.product_trending')
+{{--                @include('frontend.partials.product_trending')--}}
 
                 @include('frontend.partials.blog')
 
