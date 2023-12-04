@@ -18,7 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['namespace' => 'App\Http\Controllers\Frontend', 'as' => 'frontend.', 'middleware' => 'web'], function () {
+Route::group(['namespace' => 'App\Http\Controllers\Frontend', 'as' => 'frontend.', 'middleware' => ['web']], function () {
     Route::post('cart', 'FrontendController@cart');
     Route::delete('cart/{id}', 'FrontendController@destroyCart');
 });

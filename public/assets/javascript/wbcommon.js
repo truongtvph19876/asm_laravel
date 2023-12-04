@@ -77,27 +77,27 @@ $(document).ready(function() {
      * Written by Romit Sachani <info@winterinfotech.com>, March 2019
      */
     // madebyhand Search Start
-    $(".madebyhand-search").keyup(function(){
-        if(($(this).val()).length >= 3) {
-            var category_id = $('#madebyhand-search-category').val();
-            //console.log(category_id);
-            $.ajax({
-                url: 'index.php?route=common/madebyhand_search/search',
-                type: 'post',
-                data : 'search_string=' + $(this).val() + '&category_id=' + category_id,
-                beforeSend  : function () {
-                    $('.madebyhand-search-loader').show();
-                },
-                success: function(result){
-                    $('.madebyhand-search-result').html(result);
-                    $('.madebyhand-search-loader').hide();
-                }
-            });
-        }
-        else {
-            $('.madebyhand-search-result').html('');
-        }
-    });
+    // $(".madebyhand-search").keyup(function(){
+    //     if(($(this).val()).length >= 3) {
+    //         var category_id = $('#madebyhand-search-category').val();
+    //         //console.log(category_id);
+    //         $.ajax({
+    //             url: 'index.php?route=common/madebyhand_search/search',
+    //             type: 'post',
+    //             data : 'search_string=' + $(this).val() + '&category_id=' + category_id,
+    //             beforeSend  : function () {
+    //                 $('.madebyhand-search-loader').show();
+    //             },
+    //             success: function(result){
+    //                 $('.madebyhand-search-result').html(result);
+    //                 $('.madebyhand-search-loader').hide();
+    //             }
+    //         });
+    //     }
+    //     else {
+    //         $('.madebyhand-search-result').html('');
+    //     }
+    // });
     // madebyhand Search END
 
 	// Menu
@@ -167,195 +167,195 @@ $(document).ready(function() {
 });
 
 // Cart add remove functions
-var cart = {
-	'add': function(product_id, quantity) {
-		$.ajax({
-			url: 'http://127.0.0.1:8000/api/cart',
-			type: 'post',
-			data: 'product_id=' + product_id + '&quantity=' + (typeof(quantity) != 'undefined' ? quantity : 1),
-			dataType: 'json',
-			beforeSend: function() {
-				$('#cart > button').button('loading');
-			},
-			complete: function() {
-				$('#cart > button').button('reset');
-			},
-			success: function(json) {
-                $('.alert-dismissible, .text-danger').remove();
-                if (json.redirect) {
-                    location = json.redirect
-                }
-                if (json.success) {
-                    $('#content').parent().before('<div class="a-one"><div class="alert alert-success alert-dismissible alertsuc"><svg width="20px" height="20px"> <use xlink:href="#successi"></use> </svg> ' + json.success + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div></div>');
+// var cart = {
+// 	'add': function(product_id, quantity) {
+// 		$.ajax({
+// 			url: 'http://127.0.0.1:8000/api/cart',
+// 			type: 'post',
+// 			data: 'product_id=' + product_id + '&quantity=' + (typeof(quantity) != 'undefined' ? quantity : 1),
+// 			dataType: 'json',
+// 			beforeSend: function() {
+// 				$('#cart > button').button('loading');
+// 			},
+// 			complete: function() {
+// 				$('#cart > button').button('reset');
+// 			},
+// 			success: function(json) {
+//                 $('.alert-dismissible, .text-danger').remove();
+//                 if (json.redirect) {
+//                     location = json.redirect
+//                 }
+//                 if (json.success) {
+//                     $('#content').parent().before('<div class="a-one"><div class="alert alert-success alert-dismissible alertsuc"><svg width="20px" height="20px"> <use xlink:href="#successi"></use> </svg> ' + json.success + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div></div>');
+//
+//                     setTimeout(function() {
+//                         $('#cart > button').html('<div class="svg-bg"><svg><use xlink:href="#hcart"></use></svg><span id="cart-total"> ' + json['total'] + '</span></div>');
+//                     }, 100);
+//                     $('.a-one').delay(5000).fadeOut();
+//                     $('#cart > ul').load('index.php?route=common/cart/info ul li')
+//                     $("button.close").click(function() {
+//                         $(".a-one").remove();
+//                     })
+//                 }
+//             },
+// 			error: function(xhr, ajaxOptions, thrownError) {
+// 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+// 			}
+// 		});
+// 	},
+// 	'update': function(key, quantity) {
+// 		$.ajax({
+// 			url: 'index.php?route=checkout/cart/edit',
+// 			type: 'post',
+// 			data: 'key=' + key + '&quantity=' + (typeof(quantity) != 'undefined' ? quantity : 1),
+// 			dataType: 'json',
+// 			beforeSend: function() {
+// 				$('#cart > button').button('loading');
+// 			},
+// 			complete: function() {
+// 				$('#cart > button').button('reset');
+// 			},
+// 			success: function(json) {
+// 				// Need to set timeout otherwise it wont update the total
+// 				setTimeout(function () {
+// 					$('#cart > button').html('<div class="svg-bg"><svg><use xlink:href="#hcart"></use></svg><span id="cart-total"> ' + json['total'] + '</span></div>');
+// 				}, 100);
+//
+// 				if (getURLVar('route') == 'checkout/cart' || getURLVar('route') == 'checkout/checkout') {
+// 					location = 'index.php?route=checkout/cart';
+// 				} else {
+// 					$('#cart > ul').load('index.php?route=common/cart/info ul li');
+// 				}
+// 			},
+// 			error: function(xhr, ajaxOptions, thrownError) {
+// 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+// 			}
+// 		});
+// 	},
+// 	'remove': function(key) {
+// 		$.ajax({
+// 			url: 'index.php?route=checkout/cart/remove',
+// 			type: 'post',
+// 			data: 'key=' + key,
+// 			dataType: 'json',
+// 			beforeSend: function() {
+// 				$('#cart > button').button('loading');
+// 			},
+// 			complete: function() {
+// 				$('#cart > button').button('reset');
+// 			},
+// 			success: function(json) {
+// 				// Need to set timeout otherwise it wont update the total
+// 				setTimeout(function () {
+// 					$('#cart > button').html('<div class="svg-bg"><svg><use xlink:href="#hcart"></use></svg><span id="cart-total"> ' + json['total'] + '</span></div>');
+// 				}, 100);
+//
+// 				if (getURLVar('route') == 'checkout/cart' || getURLVar('route') == 'checkout/checkout') {
+// 					location = 'index.php?route=checkout/cart';
+// 				} else {
+// 					$('#cart > ul').load('index.php?route=common/cart/info ul li');
+// 				}
+// 			},
+// 			error: function(xhr, ajaxOptions, thrownError) {
+// 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+// 			}
+// 		});
+// 	}
+// }
 
-                    setTimeout(function() {
-                        $('#cart > button').html('<div class="svg-bg"><svg><use xlink:href="#hcart"></use></svg><span id="cart-total"> ' + json['total'] + '</span></div>');
-                    }, 100);
-                    $('.a-one').delay(5000).fadeOut();
-                    $('#cart > ul').load('index.php?route=common/cart/info ul li')
-                    $("button.close").click(function() {
-                        $(".a-one").remove();
-                    })
-                }
-            },
-			error: function(xhr, ajaxOptions, thrownError) {
-				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-			}
-		});
-	},
-	'update': function(key, quantity) {
-		$.ajax({
-			url: 'index.php?route=checkout/cart/edit',
-			type: 'post',
-			data: 'key=' + key + '&quantity=' + (typeof(quantity) != 'undefined' ? quantity : 1),
-			dataType: 'json',
-			beforeSend: function() {
-				$('#cart > button').button('loading');
-			},
-			complete: function() {
-				$('#cart > button').button('reset');
-			},
-			success: function(json) {
-				// Need to set timeout otherwise it wont update the total
-				setTimeout(function () {
-					$('#cart > button').html('<div class="svg-bg"><svg><use xlink:href="#hcart"></use></svg><span id="cart-total"> ' + json['total'] + '</span></div>');
-				}, 100);
-
-				if (getURLVar('route') == 'checkout/cart' || getURLVar('route') == 'checkout/checkout') {
-					location = 'index.php?route=checkout/cart';
-				} else {
-					$('#cart > ul').load('index.php?route=common/cart/info ul li');
-				}
-			},
-			error: function(xhr, ajaxOptions, thrownError) {
-				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-			}
-		});
-	},
-	'remove': function(key) {
-		$.ajax({
-			url: 'index.php?route=checkout/cart/remove',
-			type: 'post',
-			data: 'key=' + key,
-			dataType: 'json',
-			beforeSend: function() {
-				$('#cart > button').button('loading');
-			},
-			complete: function() {
-				$('#cart > button').button('reset');
-			},
-			success: function(json) {
-				// Need to set timeout otherwise it wont update the total
-				setTimeout(function () {
-					$('#cart > button').html('<div class="svg-bg"><svg><use xlink:href="#hcart"></use></svg><span id="cart-total"> ' + json['total'] + '</span></div>');
-				}, 100);
-
-				if (getURLVar('route') == 'checkout/cart' || getURLVar('route') == 'checkout/checkout') {
-					location = 'index.php?route=checkout/cart';
-				} else {
-					$('#cart > ul').load('index.php?route=common/cart/info ul li');
-				}
-			},
-			error: function(xhr, ajaxOptions, thrownError) {
-				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-			}
-		});
-	}
-}
-
-var voucher = {
-	'add': function() {
-
-	},
-	'remove': function(key) {
-		$.ajax({
-			url: 'index.php?route=checkout/cart/remove',
-			type: 'post',
-			data: 'key=' + key,
-			dataType: 'json',
-			beforeSend: function() {
-				$('#cart > button').button('loading');
-			},
-			complete: function() {
-				$('#cart > button').button('reset');
-			},
-			success: function(json) {
-				// Need to set timeout otherwise it wont update the total
-				setTimeout(function () {
-					$('#cart > button').html('<div class="svg-bg"><svg><use xlink:href="#hcart"></use></svg><span id="cart-total"> ' + json['total'] + '</span></div>');
-				}, 100);
-
-				if (getURLVar('route') == 'checkout/cart' || getURLVar('route') == 'checkout/checkout') {
-					location = 'index.php?route=checkout/cart';
-				} else {
-					$('#cart > ul').load('index.php?route=common/cart/info ul li');
-				}
-			},
-			error: function(xhr, ajaxOptions, thrownError) {
-				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-			}
-		});
-	}
-}
-
-var wishlist = {
-	'add': function(product_id) {
-		$.ajax({
-			url: 'index.php?route=account/wishlist/add',
-			type: 'post',
-			data: 'product_id=' + product_id,
-			dataType: 'json',
-			success: function(json) {
-                $('.alert-dismissible').remove();
-                if (json.redirect) {
-                    location = json.redirect
-                }
-                if (json.success) {
-                    $('#content').parent().before('<div class="a-one"><div class="alert alert-success alert-dismissible alertsuc"><svg width="20px" height="20px"> <use xlink:href="#successi"></use> </svg> ' + json.success + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div></div>');
-                }
-                $('#wishlist-total span').html(json.total);
-                $('#wishlist-total').attr('title', json.total);
-                $('.a-one').delay(5000).fadeOut();
-                $("button.close").click(function() {
-                    $(".a-one").remove()
-                })
-            },
-			error: function(xhr, ajaxOptions, thrownError) {
-				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-			}
-		});
-	},
-	'remove': function() {
-
-	}
-}
-
-var compare = {
-	'add': function(product_id) {
-		$.ajax({
-			url: 'index.php?route=product/compare/add',
-			type: 'post',
-			data: 'product_id=' + product_id,
-			dataType: 'json',
-			success: function(json) {
-                $('.alert-dismissible').remove();
-                if (json.success) {
-                    $('#content').parent().before('<div class="a-one"><div class="alert alert-success alert-dismissible alertsuc"><svg width="20px" height="20px"> <use xlink:href="#successi"></use></svg> ' + json.success + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div></div>');
-                    $('#compare-total').html(json.total);
-                    $('.a-one').delay(5000).fadeOut();
-                    $("button.close").click(function() {
-                        $(".a-one").remove()
-                    })
-                }
-            },
-			error: function(xhr, ajaxOptions, thrownError) {
-				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-			}
-		});
-	},
-	'remove': function() {
-	}
-}
+// var voucher = {
+// 	'add': function() {
+//
+// 	},
+// 	'remove': function(key) {
+// 		$.ajax({
+// 			url: 'index.php?route=checkout/cart/remove',
+// 			type: 'post',
+// 			data: 'key=' + key,
+// 			dataType: 'json',
+// 			beforeSend: function() {
+// 				$('#cart > button').button('loading');
+// 			},
+// 			complete: function() {
+// 				$('#cart > button').button('reset');
+// 			},
+// 			success: function(json) {
+// 				// Need to set timeout otherwise it wont update the total
+// 				setTimeout(function () {
+// 					$('#cart > button').html('<div class="svg-bg"><svg><use xlink:href="#hcart"></use></svg><span id="cart-total"> ' + json['total'] + '</span></div>');
+// 				}, 100);
+//
+// 				if (getURLVar('route') == 'checkout/cart' || getURLVar('route') == 'checkout/checkout') {
+// 					location = 'index.php?route=checkout/cart';
+// 				} else {
+// 					$('#cart > ul').load('index.php?route=common/cart/info ul li');
+// 				}
+// 			},
+// 			error: function(xhr, ajaxOptions, thrownError) {
+// 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+// 			}
+// 		});
+// 	}
+// }
+//
+// var wishlist = {
+// 	'add': function(product_id) {
+// 		$.ajax({
+// 			url: 'index.php?route=account/wishlist/add',
+// 			type: 'post',
+// 			data: 'product_id=' + product_id,
+// 			dataType: 'json',
+// 			success: function(json) {
+//                 $('.alert-dismissible').remove();
+//                 if (json.redirect) {
+//                     location = json.redirect
+//                 }
+//                 if (json.success) {
+//                     $('#content').parent().before('<div class="a-one"><div class="alert alert-success alert-dismissible alertsuc"><svg width="20px" height="20px"> <use xlink:href="#successi"></use> </svg> ' + json.success + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div></div>');
+//                 }
+//                 $('#wishlist-total span').html(json.total);
+//                 $('#wishlist-total').attr('title', json.total);
+//                 $('.a-one').delay(5000).fadeOut();
+//                 $("button.close").click(function() {
+//                     $(".a-one").remove()
+//                 })
+//             },
+// 			error: function(xhr, ajaxOptions, thrownError) {
+// 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+// 			}
+// 		});
+// 	},
+// 	'remove': function() {
+//
+// 	}
+// }
+//
+// var compare = {
+// 	'add': function(product_id) {
+// 		$.ajax({
+// 			url: 'index.php?route=product/compare/add',
+// 			type: 'post',
+// 			data: 'product_id=' + product_id,
+// 			dataType: 'json',
+// 			success: function(json) {
+//                 $('.alert-dismissible').remove();
+//                 if (json.success) {
+//                     $('#content').parent().before('<div class="a-one"><div class="alert alert-success alert-dismissible alertsuc"><svg width="20px" height="20px"> <use xlink:href="#successi"></use></svg> ' + json.success + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div></div>');
+//                     $('#compare-total').html(json.total);
+//                     $('.a-one').delay(5000).fadeOut();
+//                     $("button.close").click(function() {
+//                         $(".a-one").remove()
+//                     })
+//                 }
+//             },
+// 			error: function(xhr, ajaxOptions, thrownError) {
+// 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+// 			}
+// 		});
+// 	},
+// 	'remove': function() {
+// 	}
+// }
 
 /* Agree to Terms */
 $(document).delegate('.agree', 'click', function(e) {

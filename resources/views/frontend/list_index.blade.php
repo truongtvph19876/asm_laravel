@@ -126,8 +126,9 @@
 
                 </div>
                 <div class="row pagi">
-                    <div class="col-sm-6 col-xs-6 text-left"></div>
-                    <div class="col-sm-6 col-xs-6 text-right tot">Showing 1 to 7 of 7 (1 Pages)</div>
+                    {{ $products->onEachSide(5)->links() }}
+{{--                    <div class="col-sm-6 col-xs-6 text-left"></div>--}}
+{{--                    <div class="col-sm-6 col-xs-6 text-right tot">Showing 1 to 7 of 7 (1 Pages)</div>--}}
                 </div>
             </div>
         </div>

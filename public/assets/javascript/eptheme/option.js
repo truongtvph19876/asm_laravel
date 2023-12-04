@@ -60,7 +60,7 @@ function deleteCartItem(id) {
                                                         <div class="row">
                                                             <span class="col-md-2">SL: </span>
                                                             <span class="col-md-8">
-                                                            <input id="input-quantity" type="number" name="quantity" value="${item.cart_quantity}" size="2" id="input-quantity" style="max-width: 80px;max-height: 24px;" class="form-control input-number pull-left" />
+                                                            <input id="input-quantity" type="number" name="quantity" value="${item.cart_quantity}" min="1" max="${item.product_quantity}" size="2" id="input-quantity" style="max-width: 80px;max-height: 24px;" class="form-control input-number pull-left" />
                                                             <input type="hidden" name="product_id" value="${item.id}" />
                                                             </span>
                                                             <script id="${item.id}">
@@ -116,29 +116,28 @@ var webiOption = function(json) {
 		$('[data-update=discount-'+ product_id +']').text(json['discount']);
 	}
 }
-var webiOptionAjex = function() {
-	$.ajax({
-		url: 'index.php?route=/extension/winter/product_data/option_price',
-		type: 'post',
-		data: $(this).closest('.webi-main').find('input[type=\'hidden\'], input[type=\'checkbox\']:checked, input[type=\'radio\']:checked, select'),
-		success: webiOption,
-		error: function(xhr, ajaxOptions, thrownError) {
-			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-		}
-	});
-}
-// Custom Function End
+// var webiOptionAjex = function() {
+// 	$.ajax({
+// 		url: 'index.php?route=/extension/winter/product_data/option_price',
+// 		type: 'post',
+// 		data: $(this).closest('.webi-main').find('input[type=\'hidden\'], input[type=\'checkbox\']:checked, input[type=\'radio\']:checked, select'),
+// 		success: webiOption,
+// 		error: function(xhr, ajaxOptions, thrownError) {
+// 			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+// 		}
+// 	});
+// }
+// // Custom Function End
 
 $(document).ready(function() {
-	$('.webi-option-click').on('click', webiOptionAjex);
-	$('.webi-option-select').on('change', webiOptionAjex);
+	// $('.webi-option-click').on('click', webiOptionAjex);
+	// $('.webi-option-select').on('change', webiOptionAjex);
 
 	$('.webi-cart').on('click', function() {
-        console.log($('meta[name="csrf-token"]').attr('content'))
         product_body = $(this).parent().parent().parent().parent();
         $.ajax({
             headers: {
-                'X-XSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('input[name="_token"]').val()
             },
 			url: 'http://127.0.0.1:8000/api/cart',
 			type: 'post',

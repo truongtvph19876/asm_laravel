@@ -176,7 +176,17 @@ class UserController extends Controller
         $this->validate($request, [
             'first_name' => 'required|string|max:191',
             'last_name' => 'required|string|max:191',
+            'email' => 'required|email',
             'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ],[
+            'first_name.required' => 'First name không được bỏ trống',
+            'first_name.string' => 'First name phải bao gồm chữ cái',
+            'first_name.max' => 'Tối đa 191 ký tự',
+            'last_name.required' => 'Last name không được bỏ trống',
+            'last_name.string' => 'Last name phải bao gồm chữ cái',
+            'last_name.max' => 'Tối đa 191 ký tự',
+            'email.required' => 'Email không được bỏ trống',
+            'email.email' => 'Email không không hợp lệ',
         ]);
 
         $module_name = $this->module_name;

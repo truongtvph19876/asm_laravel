@@ -32,6 +32,9 @@ return new class extends Migration
             $table->string('url_linkedin')->nullable();
 
             $table->date('date_of_birth')->nullable();
+            $table->text('city')->nullable();
+            $table->text('district')->nullable();
+            $table->text('ward')->nullable();
             $table->text('address')->nullable();
             $table->text('bio')->nullable();
             $table->string('avatar')->nullable();

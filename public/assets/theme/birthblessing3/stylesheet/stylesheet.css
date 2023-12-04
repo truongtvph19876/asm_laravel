@@ -113,6 +113,22 @@ div.required .control-label:before {
 	}
 }
 
+.d-flex {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+.justify-content-center {
+    justify-content: center;
+}
+.gap-1 {
+    gap: 4px;
+}
+.gap-2 {
+    gap: 8px;
+}
 .mx-auto {
     margin: 0 auto;
 }

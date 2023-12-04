@@ -51,7 +51,7 @@ class FrontendController extends Controller
     public function list_product(Request $request) {
 
         $brands = Brand::query()->whereNotIn('id', [1])->get();
-        $products = Product::query()->paginate();
+        $products = Product::query()->paginate(10);
         $brand_filter = Brand::query()
             ->where('brand_name', '=', $request->query('brand'))
             ->first();
@@ -63,7 +63,7 @@ class FrontendController extends Controller
         elseif ($request->query('search') != '') {
             $products = Product::query()
                 ->where('product_name', 'LIKE', "%".$request->query('search')."%")
-                ->paginate();
+                ->paginate(10);
         }
 
         return view('frontend.list_index',
@@ -92,10 +92,6 @@ class FrontendController extends Controller
     }
 
     public function cart(Request $request) {
-//        return response()->json($request->all());
-//        $request->session()->put('cart', []);
-//        return response()->json($request->product_id);
-
         $product = Product::find($request->product_id);
 
         if ($product) {
